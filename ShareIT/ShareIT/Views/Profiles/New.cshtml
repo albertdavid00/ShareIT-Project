@@ -1,0 +1,25 @@
+﻿@model ShareIT.Models.Profile
+@{
+    ViewBag.Titlu = "New";
+}
+
+<h2>Adaugare profil</h2>
+
+<form method="post" action="/Profiles/New">
+
+    @Html.Label("Nume Profil")
+    <br />
+    @Html.TextBox("ProfileName", null, new { @class = "form-control" })
+    <br />
+    @Html.Label("ProfileDescription", "Descriere Profil")
+    <br />
+    @Html.TextArea("ProfileDescription", null, new { @class = "form-control" })
+    <br /> <br />
+    @Html.Label("PrivateProfile", "Tip profil")
+    <br />
+    Privat: @Html.RadioButtonFor(m => m.PrivateProfile, true)
+    Public: @Html.RadioButtonFor(m => m.PrivateProfile, false)
+    <br />
+    <button type="submit">Adauga profil</button>
+
+</form>

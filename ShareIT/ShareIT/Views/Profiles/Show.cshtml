@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Show profile";
+}
+<br />
+<a href="/Profiles/Index">Back to profiles</a>
+<br />
+<a class="btn btn-info" href="/Profiles/New">Adauga profil</a>
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">@ViewBag.Profile.ProfileName</div>
+    <div class="panel-body">
+        Descriere profil: <strong>@ViewBag.Profile.ProfileDescription</strong>
+        <br /> <br />
+        Profilul este: @if (@ViewBag.Profile.PrivateProfile == true)
+        {
+            <text>privat</text>
+        }
+        else
+        { <text>public</text>}
+        <br />
+        <span class="label label-success">@ViewBag.Profile.SignUpDate</span>
+        <br />
+        <hr>
+        <a class="btn btn-success pull-left" href="/Profiles/Edit/@ViewBag.Profile.ProfileId">Modifica profilul</a>
+        <form method="post" action="/Profiles/Delete/@ViewBag.Profile.ProfileId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button class="btn btn-danger pull-right" type="submit">Sterge profil</button>
+        </form>
+    </div>
+</div>

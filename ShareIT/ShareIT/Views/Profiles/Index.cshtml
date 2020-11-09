@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>News Feed</h2>
+
+<h1>@ViewBag.Message</h1>
+
+<a class="btn btn-primary" href="/Profiles/New">Adauga profil</a>
+<br /><br />
+@foreach (var profile in ViewBag.Profiles)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@profile.ProfileName</div>
+        <div class="panel-body">
+            Descriere profil: <strong>@profile.ProfileDescription</strong>
+            <br /><br />
+            Profilul este: @if (profile.PrivateProfile == true)
+            {
+                <text>privat</text>
+            }
+            else
+            { <text>public</text>}
+            <br />
+            <span class="label label-success">@profile.SignUpDate</span>
+            <br />
+            <hr>
+        </div>
+        <div class="panel panel-footer">
+            <a class="btn btn-success btn btn-sm" href="/Profiles/Show/@profile.ProfileId">Afisare profil</a>
+        </div>
+    </div>
+}
