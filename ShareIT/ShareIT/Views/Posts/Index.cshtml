@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<h1>@ViewBag.Message</h1>
+<h2>Afisare postari</h2>
+
+<a class="btn btn-primary" href="/Posts/New">Adauga postare</a>
+
+@foreach (var post in ViewBag.Posts)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@post.Title</div>
+        <div class="panel-body">
+            Continut postare: <strong>@post.Content</strong>
+            <br />
+            <span class="label label-success">@post.Date</span>
+
+            <br />
+
+
+        </div>
+
+        <div class="panel panel-footer">
+            <a class="btn btn-success btn btn-sm" href="/Posts/Show/@post.Id">Afisare postare</a>
+
+        </div>
+    </div>
+}

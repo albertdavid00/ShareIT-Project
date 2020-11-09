@@ -1,0 +1,22 @@
+﻿@model ShareIT.Models.Post
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editare postare</h2>
+
+<p> Afisare formular de editare a postarii - cu datele vechi ale postarii</p>
+<form method="post" action="/Posts/Edit/@Model.Id">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.Hidden("Id")
+    @Html.Label("Title,Titlu Postare")
+    <br />
+    @Html.Editor("Title")
+    <br /><br />
+    @Html.Label("Content", "Continut Postare")
+    <br />
+    @Html.EditorFor(m => m.Content)
+    <br /><br />
+    @Html.Hidden("Date")
+    <button type="btn btn-succes">Editeaza postare</button>
+</form>
