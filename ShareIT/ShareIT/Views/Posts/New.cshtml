@@ -7,16 +7,21 @@
 
 <h2>Adaugare Postare</h2>
 
-<form method="post" action="/Posts/New">
+@using (Html.BeginForm(actionName: "New", controllerName: "Posts"))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
     @Html.Label("Title", "Titlu Postare")
     <br />
     @Html.TextBox("Title", null, new { @class = "form-control" })
-    <br /><br />
+   // @Html.ValidationMessageFor(m => m.Title, null, new { @class = "text-danger" })
+    <br />
+    <br />
     @Html.Label("Content", "Continut Postare")
     <br />
     @Html.TextArea("Content", null, new { @class = "form-control" })
-    <br /><br />
+  //  @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+    <br />
+    <br />
     <button type="submit">Adauga postare</button>
     <br />
-
-</form>
+}

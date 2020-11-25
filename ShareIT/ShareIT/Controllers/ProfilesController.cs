@@ -25,8 +25,8 @@ namespace ShareIT.Controllers
         public ActionResult Show(int id)
         {
             Profile profile = db.Profiles.Find(id);
-            ViewBag.Profile = profile;
-            return View();
+            
+            return View(profile);
         }
 
         public ActionResult New()
@@ -42,10 +42,17 @@ namespace ShareIT.Controllers
             profile.SignUpDate = DateTime.Now;
             try
             {
-                db.Profiles.Add(profile);
-                db.SaveChanges();
-                TempData["message"] = "Profilul a fost adaugat cu succes!";
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Profiles.Add(profile);
+                    db.SaveChanges();
+                    TempData["message"] = "Profilul a fost adaugat cu succes!";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(profile);
+                }
             }
             catch (Exception e)
             {
@@ -65,19 +72,26 @@ namespace ShareIT.Controllers
         {
             try
             {
-                Profile profile = db.Profiles.Find(id);
-                if (TryUpdateModel(profile))
+                if (ModelState.IsValid)
                 {
-                    profile = requestProfile;
-                    /*profile.ProfileName = requestProfile.ProfileName;
-                    profile.ProfileDescription = requestProfile.ProfileDescription;
-                    profile.SignUpDate = requestProfile.SignUpDate;
-                    profile.PrivateProfile = requestProfile.PrivateProfile;*/
-                    db.SaveChanges();
-                    TempData["message"] = "Profilul a fost editat!";
-                    return RedirectToAction("Index");
-                } 
-                return View(requestProfile);
+                    Profile profile = db.Profiles.Find(id);
+                    if (TryUpdateModel(profile))
+                    {
+                        profile = requestProfile;
+                        /*profile.ProfileName = requestProfile.ProfileName;
+                        profile.ProfileDescription = requestProfile.ProfileDescription;
+                        profile.SignUpDate = requestProfile.SignUpDate;
+                        profile.PrivateProfile = requestProfile.PrivateProfile;*/
+                        db.SaveChanges();
+                        TempData["message"] = "Profilul a fost editat!";
+                        return RedirectToAction("Index");
+                    }
+                    return View(requestProfile);
+                }
+                else
+                {
+                    return View(requestProfile);
+                }
             }
             catch (Exception e)
             {

@@ -1,14 +1,18 @@
-﻿
+﻿@model ShareIT.Models.Comment
 @{
     ViewBag.Title = "Edit";
 }
 
 <h2>Editare comentariu</h2>
-<form method="post" action="/Comments/Edit/@ViewBag.Comment.CommentId">
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Comments"))
+{
     @Html.HttpMethodOverride(HttpVerbs.Put)
-    <label>Continut comentariu</label>
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.Label("Content", "Continut Comentariu")
     <br />
-    <textarea name="Content">@ViewBag.Comment.Content</textarea>
+    @Html.TextArea("Content", null, new { @class = "form-control" })
+    //@Html.ValidationMessage("Content", null, new { @class = "text-danger" })
     <br />
     <button class="btn btn-success" type="submit">Editeaza comentariu</button>
-</form>
+}

@@ -11,16 +11,19 @@ namespace ShareIT.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Titlul este obligatoriu")]
+        [StringLength(40, ErrorMessage = "Titlul nu poate avea mai mult de 40 de caractere")]
         public string Title { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Continutul postarii este obligatoriu")]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
         public DateTime Date { get; set; }
-        public int CategoryId { get; set; }
+        
         // user_id
 
         public virtual Profile Profile { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public IEnumerable<SelectListItem> Categ { get; set; }
     }
 }

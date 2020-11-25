@@ -10,10 +10,13 @@ namespace ShareIT.Models
     {
         [Key]
         public int ProfileId { get; set; }
-        [Required]
+     
+        [Required(ErrorMessage = "Numele este obligatoriu")]
+        [StringLength(30, ErrorMessage = "Numele nu poate avea mai mult de 30 de caractere")]
         public string ProfileName { get; set; }
-        [Required]
 
+        [Required(ErrorMessage = "Descrierea profilului este obligatorie")]
+        [DataType(DataType.MultilineText)]
         public string ProfileDescription { get; set; }
         [Required]
         public DateTime SignUpDate { get; set; }

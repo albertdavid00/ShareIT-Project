@@ -27,10 +27,8 @@ namespace ShareIT.Controllers
         //SHOW
         public ActionResult Show(int id)
         {
-            Post posts = db.Posts.Find(id);
-            ViewBag.Posts = posts;
-            //ViewBag.Articles = posts;
-            return View();
+            Post post = db.Posts.Find(id);
+            return View(post);
         }
         //GET: New
         public ActionResult New()
@@ -44,10 +42,17 @@ namespace ShareIT.Controllers
             post.Date = DateTime.Now;
             try
             {
-                db.Posts.Add(post);
-                db.SaveChanges();
-                TempData["message"] = "Postarea a fost adaugat cu succes";
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Posts.Add(post);
+                    db.SaveChanges();
+                    TempData["message"] = "Postarea a fost adaugata cu succes";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(post);
+                }
             }
             catch (Exception e)
             {
@@ -67,17 +72,23 @@ namespace ShareIT.Controllers
         {
             try
             {
-                Post post = db.Posts.Find(id);
-                if (TryUpdateModel(post))
+                if (ModelState.IsValid)
                 {
-                    post.Title = requestPost.Title;
-                    post.Content = requestPost.Content;
-                    db.SaveChanges();
-                    TempData["message"] = "Articolul a fost editat!";
-                    return RedirectToAction("Index");
-
+                    Post post = db.Posts.Find(id);
+                    if (TryUpdateModel(post))
+                    {
+                        post.Title = requestPost.Title;
+                        post.Content = requestPost.Content;
+                        db.SaveChanges();
+                        TempData["message"] = "Postarea a fost editata!";
+                        return RedirectToAction("Index");
+                    }
+                    return View(requestPost);
                 }
-                return View(requestPost);
+                else
+                {
+                    return View(requestPost);
+                }
             }
             catch (Exception e)
             {

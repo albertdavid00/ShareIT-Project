@@ -33,9 +33,16 @@ namespace ShareIT.Controllers
             comm.Date = DateTime.Now;
             try
             {
-                db.Comments.Add(comm);
-                db.SaveChanges();
-                return Redirect("/Posts/Show/" + comm.PostId);
+                if (ModelState.IsValid)
+                {
+                    db.Comments.Add(comm);
+                    db.SaveChanges();
+                    return Redirect("/Posts/Show/" + comm.PostId);
+                }
+                else
+                {
+                    return Redirect("/Posts/Show/" + comm.PostId);
+                }
             }
 
             catch (Exception e)
@@ -48,8 +55,8 @@ namespace ShareIT.Controllers
         public ActionResult Edit(int id)
         {
             Comment comm = db.Comments.Find(id);
-            ViewBag.Comment = comm;
-            return View();
+            //ViewBag.Comment = comm;
+            return View(comm);
         }
 
         [HttpPut]
@@ -57,13 +64,20 @@ namespace ShareIT.Controllers
         {
             try
             {
-                Comment comm = db.Comments.Find(id);
-                if (TryUpdateModel(comm))
+                if (ModelState.IsValid)
                 {
-                    comm.Content = requestComment.Content;
-                    db.SaveChanges();
+                    Comment comm = db.Comments.Find(id);
+                    if (TryUpdateModel(comm))
+                    {
+                        comm.Content = requestComment.Content;
+                        db.SaveChanges();
+                    }
+                    return Redirect("/Posts/Show/" + comm.PostId);
                 }
-                return Redirect("/Posts/Show/" + comm.PostId);
+                else
+                {
+                    return View(requestComment);
+                }
             }
             catch (Exception e)
             {

@@ -4,27 +4,34 @@
     ViewBag.Title = "Edit";
 }
 
-<form method="post" action="/Profiles/Edit/@Model.ProfileId">
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Profiles"))
+{
+
     @Html.HttpMethodOverride(HttpVerbs.Put)
 
     @Html.Hidden("ProfileId")
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
     @Html.Label("ProfileName", "Nume Profil")
     <br />
     @Html.Editor("ProfileName")
-    <br /> <br />
+    <br />
+    <br />
     @Html.Label("ProfileDescription", "Descriere profil")
     <br />
     @Html.EditorFor(m => m.ProfileDescription)
-    <br /> <br />
+    <br />
+    <br />
     @Html.Hidden("Date")
     <br />
     @Html.Label("PrivateProfile", "Tip profil")
     <br />
-    Privat: @Html.RadioButtonFor(m => m.PrivateProfile, true)
-    Public: @Html.RadioButtonFor(m => m.PrivateProfile, false)
-    <br />
-    <hr />
-    <button class="btn btn-success" type="submit">Modifica profil</button>
-</form>
+    <text> Privat: </text>
+    @Html.RadioButtonFor(m => m.PrivateProfile, true)
+    <text> Public: </text>    
+    @Html.RadioButtonFor(m => m.PrivateProfile, false)
+<br />
+<hr />
+<button class="btn btn-success" type="submit">Modifica profil</button>
+}
 

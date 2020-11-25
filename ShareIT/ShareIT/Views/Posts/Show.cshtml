@@ -1,20 +1,21 @@
-﻿@{
+﻿@model ShareIT.Models.Post
+@{
     ViewBag.Title = "Afisare postare";
 }
 
 <h2>Afisare postare</h2>
 
 @*<h1>@ViewBag.Posts.Title</h1>
-<p>@ViewBag.Posts.Content</p>
-<small>@ViewBag.Posts.Date</small>
-<br />
-<a href="/Posts/Edit/@ViewBag.Posts.Id">Modifica postare</a>
+    <p>@ViewBag.Posts.Content</p>
+    <small>@ViewBag.Posts.Date</small>
+    <br />
+    <a href="/Posts/Edit/@ViewBag.Posts.Id">Modifica postare</a>
 
-<form method="post" action="/Posts/Delete/@ViewBag.Posts.Id">
-    @Html.HttpMethodOverride(HttpVerbs.Delete)
-    <button type="submit">Sterge postarea</button>
-</form>
-<hr />*@
+    <form method="post" action="/Posts/Delete/@ViewBag.Posts.Id">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button type="submit">Sterge postarea</button>
+    </form>
+    <hr />*@
 <a href="/Posts/Index">Inapoi la lista postarilor</a>
 <br />
 <a href="/Posts/New">Adauga alta postare</a>
@@ -22,17 +23,17 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">@ViewBag.Posts.Title</div>
+    <div class="panel-heading">@Model.Title</div>
     <div class="panel-body">
-        Continut postare: <strong>@ViewBag.Posts.Content</strong>
+        Continut postare: <strong>@Model.Content</strong>
         <br />
-        <span class="label label-success">@ViewBag.Posts.Date</span>
+        <span class="label label-success">@Model.Date</span>
 
         <br />
         <hr>
         <a class="btn btn-success pull-left"
-           href="/Posts/Edit/@ViewBag.Posts.Id">Modifica postare</a>
-        <form method="post" action="/Posts/Delete/@ViewBag.Posts.Id">
+           href="/Posts/Edit/@Model.Id">Modifica postare</a>
+        <form method="post" action="/Posts/Delete/@Model.Id">
             @Html.HttpMethodOverride(HttpVerbs.Delete)
             <button class="btn btn-danger pull-right" type="submit">
                 Sterge
@@ -43,7 +44,7 @@
 </div>
 <br />
 
-@foreach (var comm in ViewBag.Posts.Comments)
+@foreach (var comm in Model.Comments)
 {
     <div class="container">
         <div class="row">
@@ -76,20 +77,21 @@ background: transparent" type="submit"></button>
         </div>
         <div class="col-md-8">
             <div class="panel">
-                <form method="post" action="/Comments/New">
-                    <div class="panel-body">
-                        <input type="hidden" name="PostId"
-                               value="@ViewBag.Posts.Id" />
-                        <label>Continut comentariu</label>
-                        <br />
-                        <textarea class="form-control" name="Content"></textarea>
-                        <br />
-                        <button class="btn btn-success " type="submit">
-                            Adauga
-                            comentariu
-                        </button>
-                    </div>
-                </form>
+                @using (Html.BeginForm(actionName: "New", controllerName: "Comments"))
+                {
+                <div class="panel-body">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    <input type="hidden" name="PostId" value="@Model.Id" />
+                    @Html.Label("Content", "Continut Comentariu")
+                    <br />
+                    <textarea class="form-control" name="Content"></textarea>
+                    @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+                    <br />
+                    <button class="btn btn-success " type="submit">
+                        Adauga comentariu
+                    </button>
+                </div>
+                }
             </div>
         </div>
         <div class="col-md-2"></div>
