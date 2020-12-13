@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareIT", "ShareIT\ShareIT.csproj", "{97C16111-D07C-4C3E-BCA0-19E1B4E1FA26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareIT", "ShareIT\ShareIT.csproj", "{A828DAC7-9B3A-44A1-BA03-9C48290702E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{97C16111-D07C-4C3E-BCA0-19E1B4E1FA26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97C16111-D07C-4C3E-BCA0-19E1B4E1FA26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97C16111-D07C-4C3E-BCA0-19E1B4E1FA26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97C16111-D07C-4C3E-BCA0-19E1B4E1FA26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A828DAC7-9B3A-44A1-BA03-9C48290702E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A828DAC7-9B3A-44A1-BA03-9C48290702E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A828DAC7-9B3A-44A1-BA03-9C48290702E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A828DAC7-9B3A-44A1-BA03-9C48290702E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {16AD812E-9BFF-4205-8FE1-F0F72BB2363F}
+		SolutionGuid = {AC4C2437-06F1-4E74-8E14-BC76DA0FBA83}
 	EndGlobalSection
 EndGlobal

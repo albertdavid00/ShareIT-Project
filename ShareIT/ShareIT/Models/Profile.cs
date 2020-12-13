@@ -21,7 +21,9 @@ namespace ShareIT.Models
         [Required]
         public DateTime SignUpDate { get; set; }
         public bool PrivateProfile { get; set; }
-        //public int user_id
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
+
         public virtual ICollection<Post> Posts { get; set; }
     }
 }

@@ -21,8 +21,8 @@ namespace ShareIT.Models
         public string Content { get; set; }
         public DateTime Date { get; set; }
         
-        // user_id
-
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
         public virtual Profile Profile { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }

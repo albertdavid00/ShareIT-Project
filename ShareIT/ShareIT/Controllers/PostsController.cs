@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using AppContext = ShareIT.Models.AppContext;
 
 namespace ShareIT.Controllers
 {
     public class PostsController : Controller
     {
-        private AppContext db = new ShareIT.Models.AppContext();
+        private ApplicationDbContext db = new ShareIT.Models.ApplicationDbContext();
 
 
         // GET: Posts
