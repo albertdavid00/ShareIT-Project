@@ -1,4 +1,5 @@
-﻿using ShareIT.Models;
+﻿using Microsoft.AspNet.Identity;
+using ShareIT.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,24 +22,31 @@ namespace ShareIT.Controllers
             }
             return View();
         }
+
         public ActionResult Show(int id)
         {
             Profile profile = db.Profiles.Find(id);
-            
+            var posts = from post in db.Posts
+                        where post.UserId == profile.UserId
+                        select post;
+            ViewBag.Posts = posts;
+            ViewBag.UserId = User.Identity.GetUserId();
             return View(profile);
         }
-
+        [Authorize(Roles = "User,Admin")]
         public ActionResult New()
         {
             Profile profile = new Profile();
-
+            profile.UserId = User.Identity.GetUserId();
             return View(profile);
         }
 
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult New(Profile profile)
         {
             profile.SignUpDate = DateTime.Now;
+            profile.UserId = User.Identity.GetUserId();
             try
             {
                 if (ModelState.IsValid)
@@ -58,15 +66,24 @@ namespace ShareIT.Controllers
                 return View(profile);
             }
         }
-
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id)
         {
             Profile profile = db.Profiles.Find(id);
-            ViewBag.Profile = profile;
-            return View(profile);
+            if (profile.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                ViewBag.Profile = profile;
+                return View(profile);
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui profil care nu va apartine";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPut]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id, Profile requestProfile)
         {
             try
@@ -74,18 +91,26 @@ namespace ShareIT.Controllers
                 if (ModelState.IsValid)
                 {
                     Profile profile = db.Profiles.Find(id);
-                    if (TryUpdateModel(profile))
+                    if (profile.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
                     {
-                        profile = requestProfile;
-                        /*profile.ProfileName = requestProfile.ProfileName;
-                        profile.ProfileDescription = requestProfile.ProfileDescription;
-                        profile.SignUpDate = requestProfile.SignUpDate;
-                        profile.PrivateProfile = requestProfile.PrivateProfile;*/
-                        db.SaveChanges();
-                        TempData["message"] = "Profilul a fost editat!";
+                        if (TryUpdateModel(profile))
+                        {
+                            profile = requestProfile;
+                            /*profile.ProfileName = requestProfile.ProfileName;
+                            profile.ProfileDescription = requestProfile.ProfileDescription;
+                            profile.SignUpDate = requestProfile.SignUpDate;
+                            profile.PrivateProfile = requestProfile.PrivateProfile;*/
+                            db.SaveChanges();
+                            TempData["message"] = "Profilul a fost editat!";
+                            return RedirectToAction("Index");
+                        }
+                        return View(requestProfile);
+                    }
+                    else
+                    {
+                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui profil care nu va apartine";
                         return RedirectToAction("Index");
                     }
-                    return View(requestProfile);
                 }
                 else
                 {
@@ -99,13 +124,22 @@ namespace ShareIT.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Delete(int id)
         {
             Profile profile = db.Profiles.Find(id);
-            db.Profiles.Remove(profile);
-            db.SaveChanges();
-            TempData["message"] = "Profilul a fost sters!";
-            return RedirectToAction("Index");
+            if (profile.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                db.Profiles.Remove(profile);
+                db.SaveChanges();
+                TempData["message"] = "Profilul a fost sters!";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa stergeti un profil care nu va apartine";
+                return RedirectToAction("Index");
+            }
         }
     }
 }

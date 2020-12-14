@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace ShareIT.Controllers
 {
@@ -18,18 +19,38 @@ namespace ShareIT.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Delete(int id)
         {
             Comment comm = db.Comments.Find(id);
-            db.Comments.Remove(comm);
-            db.SaveChanges();
-            return Redirect("/Posts/Show/" + comm.PostId);
+
+            if (!User.IsInRole("Admin") && !User.IsInRole("User"))
+            {
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari";
+                return RedirectToAction("Index", "Posts");      // DE CEEEEEEEE
+            }
+            else
+            {
+                if (comm.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+                {
+                    db.Comments.Remove(comm);
+                    db.SaveChanges();
+                    return Redirect("/Posts/Show/" + comm.PostId);
+                }
+                else
+                {
+                    TempData["message"] = "Nu aveti dreptul sa faceti modificari";
+                    return RedirectToAction("Index", "Posts");
+                }
+            }
         }
 
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult New(Comment comm)
         {
             comm.Date = DateTime.Now;
+            comm.UserId = User.Identity.GetUserId();
             try
             {
                 if (ModelState.IsValid)
@@ -50,22 +71,31 @@ namespace ShareIT.Controllers
             }
 
         }
-
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id)
         {
             Comment comm = db.Comments.Find(id);
-            //ViewBag.Comment = comm;
-            return View(comm);
+            if (comm.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                return View(comm);
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari";
+                return RedirectToAction("Index", "Posts");
+            }
         }
 
         [HttpPut]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id, Comment requestComment)
         {
             try
             {
-                if (ModelState.IsValid)
+                Comment comm = db.Comments.Find(id);
+
+                if (comm.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
                 {
-                    Comment comm = db.Comments.Find(id);
                     if (TryUpdateModel(comm))
                     {
                         comm.Content = requestComment.Content;
@@ -75,7 +105,8 @@ namespace ShareIT.Controllers
                 }
                 else
                 {
-                    return View(requestComment);
+                    TempData["message"] = "Nu aveti dreptul sa faceti modificari";
+                    return RedirectToAction("Index", "Posts");
                 }
             }
             catch (Exception e)

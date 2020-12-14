@@ -31,15 +31,18 @@
 
         <br />
         <hr>
-        <a class="btn btn-success pull-left"
-           href="/Posts/Edit/@Model.Id">Modifica postare</a>
-        <form method="post" action="/Posts/Delete/@Model.Id">
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger pull-right" type="submit">
-                Sterge
-                postare
-            </button>
-        </form>
+        @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.UserId == ViewBag.UserId))
+        {
+                <a class="btn btn-success pull-left"
+                   href="/Posts/Edit/@Model.Id">Modifica postare</a>
+            <form method="post" action="/Posts/Delete/@Model.Id">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-danger pull-right" type="submit">
+                    Sterge
+                    postare
+                </button>
+            </form>
+        }
     </div>
 </div>
 <br />
@@ -55,15 +58,22 @@
                     <small class="pull-right">@comm.Date</small>
                 </div>
                 <div style="display: inline-block; float : left; margin-right: 15px">
-                    <a class="glyphicon glyphicon-pencil"
-                       href="/Comments/Edit/@comm.CommentId"></a>
+                    @if (User.IsInRole("Admin") || (User.IsInRole("User") && comm.UserId == ViewBag.UserId))
+                    {
+                        <a class="glyphicon glyphicon-pencil"
+                           href="/Comments/Edit/@comm.CommentId"></a>
+                    }
                 </div>
+
                 <div style="display: inline-block; float : left">
-                    <form method="post" action="/Comments/Delete/@comm.CommentId">
-                        @Html.HttpMethodOverride(HttpVerbs.Delete)
-                        <button class="glyphicon glyphicon-trash" style="border: none;
+                    @if (User.IsInRole("Admin") || (User.IsInRole("User") && comm.UserId == ViewBag.UserId))
+                    {
+                        <form method="post" action="/Comments/Delete/@comm.CommentId">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button class="glyphicon glyphicon-trash" style="border: none;
 background: transparent" type="submit"></button>
-                    </form>
+                        </form>
+                    }
                 </div>
             </div>
             <div class="col-md-2"></div>
@@ -71,29 +81,36 @@ background: transparent" type="submit"></button>
     </div>
     <hr />
 }
-<div class="container">
-    <div class="row">
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-8">
-            <div class="panel">
-                @using (Html.BeginForm(actionName: "New", controllerName: "Comments"))
-                {
-                <div class="panel-body">
-                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                    <input type="hidden" name="PostId" value="@Model.Id" />
-                    @Html.Label("Content", "Continut Comentariu")
-                    <br />
-                    <textarea class="form-control" name="Content"></textarea>
-                    @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
-                    <br />
-                    <button class="btn btn-success " type="submit">
-                        Adauga comentariu
-                    </button>
-                </div>
-                }
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
             </div>
+            <div class="col-md-8">
+                <div class="panel">
+                    @using (Html.BeginForm(actionName: "New", controllerName: "Comments"))
+                    {
+                        <div class="panel-body">
+                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                            <input type="hidden" name="PostId" value="@Model.Id" />
+                            @Html.Label("Content", "Continut Comentariu")
+                            <br />
+                            <textarea class="form-control" name="Content"></textarea>
+                            @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+                            <br />
+                            <button class="btn btn-success " type="submit">
+                                Adauga comentariu
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-2"></div>
         </div>
-        <div class="col-md-2"></div>
     </div>
-</div>
+}
+else
+{
+    <p> Creeaza un cont pentru a putea comenta! :) </p>
+}

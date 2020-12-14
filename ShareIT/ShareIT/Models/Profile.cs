@@ -23,7 +23,7 @@ namespace ShareIT.Models
         public bool PrivateProfile { get; set; }
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
-
+        
         public virtual ICollection<Post> Posts { get; set; }
     }
 }

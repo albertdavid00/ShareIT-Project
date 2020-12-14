@@ -6,7 +6,10 @@
 <br />
 <a href="/Profiles/Index">Back to profiles</a>
 <br />
-<a class="btn btn-info" href="/Profiles/New">Adauga profil</a>
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
+    <a class="btn btn-info" href="/Profiles/New">Adauga profil</a>
+}
 <br />
 <div class="panel panel-default">
     <div class="panel-heading">@Model.ProfileName</div>
@@ -23,10 +26,36 @@
         <span class="label label-success">@Model.SignUpDate</span>
         <br />
         <hr>
-        <a class="btn btn-success pull-left" href="/Profiles/Edit/@Model.ProfileId">Modifica profilul</a>
-        <form method="post" action="/Profiles/Delete/@Model.ProfileId">
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger pull-right" type="submit">Sterge profil</button>
-        </form>
+        @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.UserId == ViewBag.UserId))
+        {
+            <a class="btn btn-success pull-left" href="/Profiles/Edit/@Model.ProfileId">Modifica profilul</a>
+            <form method="post" action="/Profiles/Delete/@Model.ProfileId">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-danger pull-right" type="submit">Sterge profil</button>
+            </form>
+        }
     </div>
 </div>
+@foreach (var post in ViewBag.Posts)
+{
+
+    <div class="panel panel-default">
+        <div class="panel-heading">@post.Title</div>
+        <div class="panel-body">
+            Continut postare: <strong>@post.Content</strong>
+            <br />
+            <span class="label label-success">@post.Date</span>
+
+            <br />
+
+
+        </div>
+
+        <div class="panel panel-footer">
+            <a class="btn btn-success btn btn-sm" href="/Posts/Show/@post.Id">Afisare postare</a>
+
+        </div>
+    </div>
+    <br />
+    <hr />
+}

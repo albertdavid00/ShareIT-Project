@@ -1,4 +1,5 @@
-﻿using ShareIT.Models;
+﻿using Microsoft.AspNet.Identity;
+using ShareIT.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,18 +28,23 @@ namespace ShareIT.Controllers
         public ActionResult Show(int id)
         {
             Post post = db.Posts.Find(id);
+            ViewBag.UserId = User.Identity.GetUserId();
             return View(post);
         }
         //GET: New
+        [Authorize(Roles = "User,Admin")]
         public ActionResult New()
         {
             Post post = new Post();
+            post.UserId = User.Identity.GetUserId();
             return View(post);
         }
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult New(Post post)
         {
             post.Date = DateTime.Now;
+            post.UserId = User.Identity.GetUserId();    // NICEEEEE
             try
             {
                 if (ModelState.IsValid)
@@ -59,14 +65,22 @@ namespace ShareIT.Controllers
             }
         }
         //EDIT
-
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id)
         {
             Post post = db.Posts.Find(id);
-
-            return View(post);
+            if (post.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                return View(post);
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei postari care nu va apartine";
+                return RedirectToAction("Index");
+            }
         }
         [HttpPut]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id, Post requestPost)
         {
             try
@@ -74,15 +88,23 @@ namespace ShareIT.Controllers
                 if (ModelState.IsValid)
                 {
                     Post post = db.Posts.Find(id);
-                    if (TryUpdateModel(post))
+                    if (post.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
                     {
-                        post.Title = requestPost.Title;
-                        post.Content = requestPost.Content;
-                        db.SaveChanges();
-                        TempData["message"] = "Postarea a fost editata!";
+                        if (TryUpdateModel(post))
+                        {
+                            post.Title = requestPost.Title;
+                            post.Content = requestPost.Content;
+                            db.SaveChanges();
+                            TempData["message"] = "Postarea a fost editata!";
+                            return RedirectToAction("Index");
+                        }
+                        return View(requestPost);
+                    }
+                    else
+                    {
+                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei postari care nu va apartine";
                         return RedirectToAction("Index");
                     }
-                    return View(requestPost);
                 }
                 else
                 {
@@ -96,12 +118,21 @@ namespace ShareIT.Controllers
 
         }
         [HttpDelete]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Delete(int id)
         {
             Post post = db.Posts.Find(id);
-            db.Posts.Remove(post);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (post.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                db.Posts.Remove(post);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa stergeti o postare care nu va apartine";
+                return RedirectToAction("Index");
+            }
         }
     }
 }
