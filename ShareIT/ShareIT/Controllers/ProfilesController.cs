@@ -11,15 +11,43 @@ namespace ShareIT.Controllers
     public class ProfilesController : Controller
     {
         private ApplicationDbContext db = new ShareIT.Models.ApplicationDbContext();
+        private int _perPage = 100;
+
         // GET: Profiles
         public ActionResult Index()
         {
-            var profiles = db.Profiles;
-            ViewBag.Profiles = profiles;
+            string uid = User.Identity.GetUserId();     // afisam butonul cu adauga profil daca nu are profil user-ul
+            var prof = from p in db.Profiles
+                           where p.UserId == uid        //
+                           select p;
+            ViewBag.NoProfile = prof.Count();           // 
+
+
+            var search = "";
+            var profiles = db.Profiles.OrderBy(p => p.SignUpDate);
+            if(Request.Params.Get("search") != null)
+            {
+                search = Request.Params.Get("search").Trim();
+                //Search in profiles (ProfileName)
+                List<int> ProfileIds = db.Profiles.Where(at => at.ProfileName.Contains(search)).Select(p => p.ProfileId).ToList();
+                profiles = db.Profiles.Where(profile => ProfileIds.Contains(profile.ProfileId)).OrderBy(p => p.SignUpDate);
+            }
+            var totalItems = profiles.Count();
+            var currentPage = Convert.ToInt32(Request.Params.Get("page"));
+            var offset = 0;
+            if (!currentPage.Equals(0))
+            {
+                offset = (currentPage - 1) * this._perPage;
+            }
+            var paginatedProfiles = profiles.Skip(offset).Take(this._perPage);
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.Message = TempData["message"];
             }
+            ViewBag.total = totalItems;
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
+            ViewBag.Profiles = paginatedProfiles;
+            ViewBag.SearchString = search;
             return View();
         }
 
@@ -38,7 +66,15 @@ namespace ShareIT.Controllers
         {
             Profile profile = new Profile();
             profile.UserId = User.Identity.GetUserId();
-            return View(profile);
+            string uid = User.Identity.GetUserId();
+            var profiles = from p in db.Profiles
+                           where p.UserId == uid
+                           select p;
+            ViewBag.NoProfile = profiles.Count();
+            if (profiles.Count() == 0)
+                return View(profile);
+            else 
+                return RedirectToAction("Index", "Profiles");
         }
 
         [HttpPost]

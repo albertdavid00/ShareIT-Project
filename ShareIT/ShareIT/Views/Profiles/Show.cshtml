@@ -6,38 +6,40 @@
 <br />
 <a href="/Profiles/Index">Back to profiles</a>
 <br />
-@if (User.IsInRole("Admin") || User.IsInRole("User"))
+@if ((User.IsInRole("Admin") || @Model.UserId == ViewBag.UserId) || @Model.PrivateProfile == false)
 {
-    <a class="btn btn-info" href="/Profiles/New">Adauga profil</a>
-}
-<br />
-<div class="panel panel-default">
-    <div class="panel-heading">@Model.ProfileName</div>
-    <div class="panel-body">
-        Descriere profil: <strong>@Model.ProfileDescription</strong>
-        <br /> <br />
-        Profilul este: @if (@Model.PrivateProfile == true)
-        {
-            <text>privat</text>
-        }
-        else
-        { <text>public</text>}
-        <br />
-        <span class="label label-success">@Model.SignUpDate</span>
-        <br />
-        <hr>
-        @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.UserId == ViewBag.UserId))
-        {
-            <a class="btn btn-success pull-left" href="/Profiles/Edit/@Model.ProfileId">Modifica profilul</a>
-            <form method="post" action="/Profiles/Delete/@Model.ProfileId">
-                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                <button class="btn btn-danger pull-right" type="submit">Sterge profil</button>
-            </form>
-        }
+    if (User.IsInRole("Admin") || User.IsInRole("User"))
+    {
+        <a class="btn btn-info" href="/Profiles/New">Adauga profil</a>
+    }
+    <br />
+    <div class="panel panel-default">
+        <div class="panel-heading">@Model.ProfileName</div>
+        <div class="panel-body">
+            Descriere profil: <strong>@Model.ProfileDescription</strong>
+            <br /> <br />
+            Profilul este: @if (@Model.PrivateProfile == true)
+            {
+                <text>privat</text>
+            }
+            else
+            { <text>public</text>}
+            <br />
+            <span class="label label-success">@Model.SignUpDate</span>
+            <br />
+            <hr>
+            @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.UserId == ViewBag.UserId))
+            {
+                <a class="btn btn-success pull-left" href="/Profiles/Edit/@Model.ProfileId">Modifica profilul</a>
+                <form method="post" action="/Profiles/Delete/@Model.ProfileId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger pull-right" type="submit">Sterge profil</button>
+                </form>
+            }
+        </div>
     </div>
-</div>
-@foreach (var post in ViewBag.Posts)
-{
+    foreach (var post in ViewBag.Posts)
+    {
 
     <div class="panel panel-default">
         <div class="panel-heading">@post.Title</div>
@@ -58,4 +60,10 @@
     </div>
     <br />
     <hr />
+    }
+}else
+{
+    <div class="panel panel-default">
+        <p> Acest profil este privat. </p>
+    </div>
 }
