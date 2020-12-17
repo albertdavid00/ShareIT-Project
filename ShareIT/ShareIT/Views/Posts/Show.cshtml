@@ -27,19 +27,21 @@
     <div class="panel-body">
         Continut postare: <strong>@Model.Content</strong>
         <br />
+        <i class="glyphicon glyphicon-user"></i> <i>Autor postare: </i>
+        <strong> @Model.User.UserName </strong>
+        <br />
         <span class="label label-success">@Model.Date</span>
 
         <br />
         <hr>
         @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.UserId == ViewBag.UserId))
         {
-                <a class="btn btn-success pull-left"
-                   href="/Posts/Edit/@Model.Id">Modifica postare</a>
+            <a class="btn btn-success pull-left"
+               href="/Posts/Edit/@Model.Id">Modifica postare</a>
             <form method="post" action="/Posts/Delete/@Model.Id">
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
                 <button class="btn btn-danger pull-right" type="submit">
-                    Sterge
-                    postare
+                    Sterge postare
                 </button>
             </form>
         }
@@ -54,6 +56,9 @@
             <div class="col-md-2"></div>
             <div class="col-md-8">
                 <div>
+                    <i class="glyphicon glyphicon-user"></i>
+                    <small> @comm.User.UserName </small>
+                    <br />
                     <p>@comm.Content</p>
                     <small class="pull-right">@comm.Date</small>
                 </div>

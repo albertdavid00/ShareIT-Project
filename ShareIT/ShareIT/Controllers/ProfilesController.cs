@@ -13,6 +13,14 @@ namespace ShareIT.Controllers
         private ApplicationDbContext db = new ShareIT.Models.ApplicationDbContext();
         private int _perPage = 100;
 
+        [Authorize(Roles = "User,Admin")]
+        public ActionResult MyProfile()
+        {
+            string uid = User.Identity.GetUserId();
+            int pid = db.Profiles.Where(p => p.UserId == uid).FirstOrDefault().ProfileId;   // Current user profile id
+            return RedirectToAction("Show/" + pid.ToString());
+        }
+
         // GET: Profiles
         public ActionResult Index()
         {
