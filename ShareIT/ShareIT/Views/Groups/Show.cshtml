@@ -1,0 +1,67 @@
+﻿@model ShareIT.Models.Group
+@{
+    ViewBag.Title = "Show";
+}
+
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
+    <h2>@Model.GroupName</h2>
+    <br />
+    <a href="/Groups/Index"> Inapoi la grupuri </a>
+    <br />
+    <br />
+
+    if (Model.Users.Contains(ViewBag.CurrentUser) || ViewBag.UserId == Model.CreatorId)
+    {
+        //<a class="btn btn-info" href="/Groups/New">Creeaza un grup</a>
+        <a class="btn btn-info" href="/Groups/Members/@Model.GroupId"> Membrii </a>
+        <a class="btn btn-primary" href="/Posts/New/@Model.GroupId">Adauga o postare in grup</a>
+        if (ViewBag.UserId != Model.CreatorId)
+        {
+            <a class="btn btn-danger btn pull-right" href="/Groups/Leave/@Model.GroupId">Iesi din grup</a>
+        }
+        <br />
+        <br />
+        <div class="panel panel-default">
+            <div class="panel-heading">@Model.GroupName</div>
+            <div class="panel-body">
+                Descriere grup: <strong>@Model.GroupDescription</strong>
+                <br /> <br />
+                <i class="glyphicon glyphicon-user"></i>
+                <strong>Owner: @ViewBag.OwnerName </strong>
+                <br />
+                <hr>
+                @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.CreatorId == ViewBag.UserId))
+                {
+                    <a class="btn btn-success pull-left" href="/Groups/Edit/@Model.GroupId"> Modifica grupul </a>
+                    <form method="post" action="/Groups/Delete/@Model.GroupId">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button class="btn btn-danger pull-right" type="submit"> Sterge grupul </button>
+                    </form>
+                }
+            </div>
+        </div>
+        foreach (var post in ViewBag.Posts)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">@post.Title</div>
+                <div class="panel-body">
+                    Continut postare: <strong>@post.Content</strong>
+                    <br />
+                    <span class="label label-success">@post.Date</span>
+                    <br />
+                </div>
+                <div class="panel panel-footer">
+                    <a class="btn btn-success btn btn-sm" href="/Posts/Show/@post.Id">Afisare postare</a>
+                </div>
+            </div>
+            <br />
+            <hr />
+        }
+    }
+    else
+    {
+        <h2> Nu faci parte din acest grup! </h2>
+        <a class="btn btn-success btn btn-sm" href="/Groups/Join/@Model.GroupId">Intra in grup</a>
+    }
+}

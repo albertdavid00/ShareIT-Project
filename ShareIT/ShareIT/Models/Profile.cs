@@ -22,9 +22,13 @@ namespace ShareIT.Models
         [Required]
         public DateTime SignUpDate { get; set; }
         public bool PrivateProfile { get; set; }
+        [Display(Name = "ProfilePicture")]
+        public byte[] ProfilePicture { get; set; }
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
-        
+        public bool DeletedByAdmin { get; set; }
+
         public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
     }
 }

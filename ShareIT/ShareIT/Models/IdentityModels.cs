@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace ShareIT.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public virtual ICollection<Group> Groups { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -31,7 +33,7 @@ namespace ShareIT.Models
         public DbSet<Post> Posts { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Comment> Comments { get; set; }
-
+        public DbSet<Group> Groups { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

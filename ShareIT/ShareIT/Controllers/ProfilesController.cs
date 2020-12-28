@@ -17,8 +17,16 @@ namespace ShareIT.Controllers
         public ActionResult MyProfile()
         {
             string uid = User.Identity.GetUserId();
-            int pid = db.Profiles.Where(p => p.UserId == uid).FirstOrDefault().ProfileId;   // Current user profile id
-            return RedirectToAction("Show/" + pid.ToString());
+            var prof = db.Profiles.Where(p => p.UserId == uid);
+            if (prof.Count() == 0)
+            {
+                return RedirectToAction("New", "Profiles");
+            }
+            else
+            {
+                int pid = prof.FirstOrDefault().ProfileId;   // Current user -> profile id
+                return RedirectToAction("Show/" + pid.ToString());
+            }
         }
 
         // GET: Profiles
@@ -67,6 +75,13 @@ namespace ShareIT.Controllers
                         select post;
             ViewBag.Posts = posts;
             ViewBag.UserId = User.Identity.GetUserId();
+            if(profile.DeletedByAdmin == true && profile.UserId == User.Identity.GetUserId())
+            {
+                profile.DeletedByAdmin = false;
+                db.SaveChanges();
+                TempData["warning"] = "Una din postarile tale o fost stearsa de catre admin din cauza continutului neadecvat";
+                ViewBag.Warning = TempData["warning"];
+            }
             return View(profile);
         }
         [Authorize(Roles = "User,Admin")]

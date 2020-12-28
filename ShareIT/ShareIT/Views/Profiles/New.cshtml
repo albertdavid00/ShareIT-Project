@@ -25,6 +25,10 @@
     <text> Public: </text>
     @Html.RadioButtonFor(m => m.PrivateProfile, false)
     <br />
+    @*@Html.Label("ProfilePicture", "Fotografie de profil")
+    <br />
+    <input type="file" name="ProfilePicture" accept=".png,.jpg,.jpeg,.gif,.tif"/>
+    <br />*@
     <button type="submit">Adauga profil</button>
 
 }

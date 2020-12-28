@@ -1,0 +1,30 @@
+﻿@model ShareIT.Models.Group
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editare grup</h2>
+
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Groups"))
+{
+
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.Hidden("GroupId")
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    @Html.Label("GroupName", "Nume Grup")
+    <br />
+    @Html.Editor("GroupName")
+    <br />
+    <br />
+    @Html.Label("GroupDescription", "Descriere grup")
+    <br />
+    @Html.EditorFor(g => g.GroupDescription)
+    <br />
+    <br />
+    <hr />
+    <button class="btn btn-success" type="submit">Modifica grupul</button>
+}
+

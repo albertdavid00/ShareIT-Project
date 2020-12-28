@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>Adaugare grup</h2>
+
+@using (Html.BeginForm(actionName: "New", controllerName: "Groups"))
+{
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.Label("Nume Grup")
+    <br />
+    @Html.TextBox("GroupName", null, new { @class = "form-control" })
+    <br />
+    @Html.Label("GroupDescription", "Descriere Grup")
+    <br />
+    @Html.TextArea("GroupDescription", null, new { @class = "form-control" })
+    <br />
+    <br />
+    <button type="submit">Adauga grup</button>
+
+}

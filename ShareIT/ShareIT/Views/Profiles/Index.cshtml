@@ -3,8 +3,8 @@
 }
 
 <h2>Profiles List</h2>
-
 <h1>@ViewBag.Message</h1>
+
 @if (User.IsInRole("Admin") || ViewBag.NoProfile == 0)
 {
     <a class="btn btn-primary" href="/Profiles/New">Adauga profil</a>

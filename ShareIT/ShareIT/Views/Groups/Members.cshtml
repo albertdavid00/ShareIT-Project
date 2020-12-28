@@ -1,0 +1,24 @@
+﻿@model ShareIT.Models.Group
+@{
+    ViewBag.Title = "Members";
+}
+
+<h2>Membrii grupului</h2>
+<br />
+<a class="btn btn-link" href="/Groups/Show/@Model.GroupId">Inapoi la grup</a>
+<br /> <br />
+<div class="panel panel-default">
+    <div class="panel-heading"> Lista membrii </div>
+    @*<div class="panel-body">
+        <strong> <i> Owner: @ViewBag.Owner </i> </strong>
+        <br /> <hr />
+    </div>*@
+    @foreach (var member in ViewBag.Members)
+    {
+        <div class="panel-body">
+            <strong>@member.UserName</strong>
+                <!--<a class="btn btn-danger pull-right" href="/Groups/DeleteMember/@member.UserName/@Model.GroupId">Elimina membru</a> -->
+            <br /> <hr />
+        </div>
+    }
+</div>
