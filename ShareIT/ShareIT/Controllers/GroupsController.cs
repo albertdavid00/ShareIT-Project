@@ -137,6 +137,22 @@ namespace ShareIT.Controllers
             Group group = db.Groups.Find(id);
             if(group.CreatorId == User.Identity.GetUserId() || User.IsInRole("Admin"))
             {
+                var UsersInGroup = group.Users;
+                foreach(var user in UsersInGroup)
+                {
+                    user.Groups.Remove(group);
+                }
+                var PostsInGroup = group.Posts;
+                List<int> postIds = new List<int>();
+                foreach (var post in PostsInGroup)
+                {
+                    postIds.Add(post.Id);
+                }
+                IEnumerable <Post> postList= db.Posts.Where(p => postIds.Contains(p.Id));
+                foreach (var post in postList)
+                {
+                    db.Posts.Remove(post);
+                }
                 db.Groups.Remove(group);
                 db.SaveChanges();
                 TempData["message"] = "Grupul a fost sters";
