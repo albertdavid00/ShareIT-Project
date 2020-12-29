@@ -18,6 +18,7 @@ namespace ShareIT.Controllers
         {
             string uid = User.Identity.GetUserId();
             var prof = db.Profiles.Where(p => p.UserId == uid);
+            ViewBag.myProfile = true;
             if (prof.Count() == 0)
             {
                 return RedirectToAction("New", "Profiles");
@@ -82,11 +83,30 @@ namespace ShareIT.Controllers
                 TempData["warning"] = "Una din postarile tale o fost stearsa de catre admin din cauza continutului neadecvat";
                 ViewBag.Warning = TempData["warning"];
             }
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = db.Users.Find(currentUserId);
+            var currentUserProfile = db.Profiles.Where(p => p.UserId == currentUserId).FirstOrDefault();
+            var user = profile.User;
+            if (currentUserProfile.SentFriends.Contains(user))
+            {
+                ViewBag.sentRequest = true;
+            }
+            if (currentUserProfile.Friends.Contains(user)){
+                ViewBag.friend = true;
+            }
+            if(currentUserId == profile.UserId)
+            {
+                ViewBag.sameUser = true;
+            }
             return View(profile);
         }
         [Authorize(Roles = "User,Admin")]
         public ActionResult New()
         {
+            if (TempData.ContainsKey("friend"))
+            {
+                ViewBag.Friend = TempData["friend"]; 
+            }
             Profile profile = new Profile();
             profile.UserId = User.Identity.GetUserId();
             string uid = User.Identity.GetUserId();
@@ -199,6 +219,95 @@ namespace ShareIT.Controllers
                 TempData["message"] = "Nu aveti dreptul sa stergeti un profil care nu va apartine";
                 return RedirectToAction("Index");
             }
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        public ActionResult SendRequest(int id)
+        {
+            var profile = db.Profiles.Find(id);
+            var user = profile.User;
+            var currentUserId = User.Identity.GetUserId();
+            var prof = db.Profiles.Where(p => p.UserId == currentUserId);
+            if (prof.Count() == 0)
+            {
+                TempData["friend"] = "Creeaza-ti un profil pentru a adauga prieteni!";
+                return RedirectToAction("New");
+            }
+            if(currentUserId == profile.UserId)
+            {
+                return RedirectToAction("Index");
+            }
+            var currentUserProfile = prof.FirstOrDefault();
+            var currentUser = db.Users.Find(currentUserId);
+            if (currentUserProfile.SentFriends.Contains(user)  || currentUserProfile.Friends.Contains(user))
+            {
+                return RedirectToAction("Index");
+            }
+            currentUserProfile.SentFriends.Add(user);
+            profile.ReceivedFriends.Add(currentUser);
+            db.SaveChanges();
+            return RedirectToAction("Show/" + id.ToString());
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        public ActionResult FriendRequests(int id)
+        {
+            var profile = db.Profiles.Find(id);
+            if (profile.UserId != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index");
+            }
+            List<ApplicationUser> friendRequests = new List<ApplicationUser>();
+            foreach(var user in profile.ReceivedFriends)
+            {
+                friendRequests.Add(user);
+            }
+            ViewBag.profileId = profile.ProfileId;
+            ViewBag.FriendRequests = friendRequests;
+            ViewBag.Length = friendRequests.Count();
+            return View(profile);
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        public ActionResult AddFriend(int id, int id2)
+        {
+/*            int pid = (int)this.RouteData.Values["id"];
+            int i = (int)this.RouteData.Values["id2"];*/
+            var profile = db.Profiles.Find(id);
+            if (profile.UserId != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index");
+            }
+            List<ApplicationUser> friendRequests = new List<ApplicationUser>();
+            foreach (var user in profile.ReceivedFriends)
+            {
+                friendRequests.Add(user);
+            }
+            for(int j = 0; j < friendRequests.Count(); j++)
+            {
+                var user = friendRequests[j];
+                if(id2 == j)
+                {
+                    profile.Friends.Add(user);
+                    var userId = user.Id;
+                    var userProfile = db.Profiles.Where(p => p.UserId == userId).FirstOrDefault();
+                    userProfile.Friends.Add(profile.User);
+                    profile.ReceivedFriends.Remove(user);
+                    userProfile.SentFriends.Remove(profile.User);
+                    db.SaveChanges();
+                    break;
+                }
+            }
+            return RedirectToAction("FriendRequests/" + id.ToString());
+        }
+        [Authorize(Roles = "User,Admin")]
+        public ActionResult Friends(int id)
+        {
+            var profile = db.Profiles.Find(id);
+            ViewBag.currentUser = User.Identity.GetUserId().ToString();
+            ViewBag.UserId = profile.UserId.ToString();
+            ViewBag.friends = profile.Friends;
+            return View(profile);
         }
     }
 }

@@ -30,5 +30,8 @@ namespace ShareIT.Models
 
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<ApplicationUser> Friends { get; set; }
+        public virtual ICollection<ApplicationUser> SentFriends { get; set; }
+        public virtual ICollection<ApplicationUser> ReceivedFriends { get; set; }
     }
 }

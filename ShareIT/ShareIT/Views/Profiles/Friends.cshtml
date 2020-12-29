@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Friends";
+}
+
+<h2>My Friends</h2>
+<div class="panel panel-default">
+    <div class="panel-heading"> Lista de prieteni </div>
+    @foreach (var user in ViewBag.friends)
+    {
+        <div class="panel-body">
+            <strong>@user.UserName</strong>
+            @if (ViewBag.currentUser == ViewBag.UserId)
+            {
+            <a class="btn btn-danger pull-right" href="/Profiles/AddFriend/@ViewBag.profileId"> Sterge prieten </a>
+            }
+            <br /> <hr />
+        </div>
+    }
+</div>

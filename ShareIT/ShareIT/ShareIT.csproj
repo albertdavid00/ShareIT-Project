@@ -262,6 +262,8 @@
     <Content Include="Views\Groups\Show.cshtml" />
     <Content Include="Views\Groups\Edit.cshtml" />
     <Content Include="Views\Groups\Members.cshtml" />
+    <Content Include="Views\Profiles\FriendRequests.cshtml" />
+    <Content Include="Views\Profiles\Friends.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
