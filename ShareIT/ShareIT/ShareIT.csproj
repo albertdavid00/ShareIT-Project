@@ -184,6 +184,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -264,6 +265,7 @@
     <Content Include="Views\Groups\Members.cshtml" />
     <Content Include="Views\Profiles\FriendRequests.cshtml" />
     <Content Include="Views\Profiles\Friends.cshtml" />
+    <Content Include="Views\Profiles\JoinedGroups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

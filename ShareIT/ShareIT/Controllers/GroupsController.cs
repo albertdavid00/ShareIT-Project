@@ -219,8 +219,17 @@ namespace ShareIT.Controllers
         {
             Group group = db.Groups.Find(id);
             var members = group.Users;
+            List<string> memberIds = new List<string>();
+            foreach(var member in members)
+            {
+                memberIds.Add(member.Id);
+            }
             ViewBag.Owner = db.Users.Find(group.CreatorId).UserName;
+            ViewBag.currentUserId = User.Identity.GetUserId();
+            ViewBag.OwnerId = group.CreatorId;
             ViewBag.Members = members;
+            var profiles = db.Profiles.Where(p => memberIds.Contains(p.UserId));
+            ViewBag.profiles = profiles;
             return View(group);
         }
         
@@ -240,21 +249,25 @@ namespace ShareIT.Controllers
             }
             return RedirectToAction("Index");
         }
-       /* [Authorize(Roles = "User,Admin")]
-        public ActionResult DeleteMember(string name, int id)
+        [Authorize(Roles = "User,Admin")]
+        public ActionResult DeleteMember(string id, int id2)    //name , userid
         {
-            Group group = db.Groups.Find(id);
+            string name = id;
+            Group group = db.Groups.Find(id2);
             var currentUser = User.Identity.GetUserId();
             if (currentUser == group.CreatorId)
             {
                 var deleteUser = from u in db.Users
                                  where u.UserName == name
                                  select u;
-                group.Users.Remove(deleteUser.FirstOrDefault());
-                deleteUser.FirstOrDefault().Groups.Remove(group);
-                db.SaveChanges();
+                if (currentUser != deleteUser.FirstOrDefault().Id)
+                {
+                    group.Users.Remove(deleteUser.FirstOrDefault());
+                    deleteUser.FirstOrDefault().Groups.Remove(group);
+                    db.SaveChanges();
+                }
             }
             return RedirectToAction("Show/" + group.GroupId.ToString());
-        }*/
+        }
     }
 }

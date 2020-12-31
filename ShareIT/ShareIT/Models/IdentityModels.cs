@@ -34,6 +34,7 @@ namespace ShareIT.Models
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Friendship> Friendships { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

@@ -9,16 +9,24 @@
 <br /> <br />
 <div class="panel panel-default">
     <div class="panel-heading"> Lista membrii </div>
-    @*<div class="panel-body">
-        <strong> <i> Owner: @ViewBag.Owner </i> </strong>
-        <br /> <hr />
-    </div>*@
+
     @foreach (var member in ViewBag.Members)
     {
+        
         <div class="panel-body">
             <strong>@member.UserName</strong>
-                <!--<a class="btn btn-danger pull-right" href="/Groups/DeleteMember/@member.UserName/@Model.GroupId">Elimina membru</a> -->
-            <br /> <hr />
+                @if (ViewBag.currentUserId == ViewBag.OwnerId)
+                {
+                    <a class="btn btn-danger pull-right" href="/Groups/DeleteMember/@member.UserName/@Model.GroupId">Elimina membru</a>
+                }
+                @foreach (var profile in ViewBag.profiles)
+                {
+                    if (profile.UserId == member.Id)
+                    {
+                        <a class="btn btn-success pull-right" href="/Profiles/Show/@profile.ProfileId">Afisare profil</a>
+                    }
+                }
+                <br /> <hr />
         </div>
     }
 </div>

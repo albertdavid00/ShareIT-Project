@@ -67,7 +67,7 @@ namespace ShareIT.Controllers
             ViewBag.SearchString = search;
             return View();
         }
-
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Show(int id)
         {
             Profile profile = db.Profiles.Find(id);
@@ -292,8 +292,18 @@ namespace ShareIT.Controllers
                     var userId = user.Id;
                     var userProfile = db.Profiles.Where(p => p.UserId == userId).FirstOrDefault();
                     userProfile.Friends.Add(profile.User);
+
+                    Friendship friendship = new Friendship();
+                    friendship.User1_Id = profile.UserId;
+                    friendship.User1 = profile.User;
+                    friendship.User2_Id = userId;
+                    friendship.User2 = user;
+                    db.Friendships.Add(friendship);
+
                     profile.ReceivedFriends.Remove(user);
                     userProfile.SentFriends.Remove(profile.User);
+
+
                     db.SaveChanges();
                     break;
                 }
@@ -306,7 +316,117 @@ namespace ShareIT.Controllers
             var profile = db.Profiles.Find(id);
             ViewBag.currentUser = User.Identity.GetUserId().ToString();
             ViewBag.UserId = profile.UserId.ToString();
-            ViewBag.friends = profile.Friends;
+           /* ViewBag.friends = profile.Friends;*/
+            var userId = profile.UserId;
+            var friendships1 = db.Friendships.Where(f => f.User1_Id == userId);
+            List<ApplicationUser> friends1 = new List<ApplicationUser>();
+            foreach(var friendship in friendships1)
+            {
+                friends1.Add(friendship.User2);
+            }
+            var friendships2 = db.Friendships.Where(f => f.User2_Id == userId);
+            List<ApplicationUser> friends2 = new List<ApplicationUser>();
+            foreach (var friendship in friendships2)
+            {
+                friends2.Add(friendship.User1);
+            }
+            var friends = friends1.Union(friends2);
+            
+            List<ApplicationUser> Friends = new List<ApplicationUser>();
+            foreach(var friend in friends)
+            {
+                Friends.Add(friend);
+            }
+            ViewBag.friends = Friends;
+            ViewBag.Length = friends.Count();
+            ViewBag.profileId = profile.ProfileId;
+            return View(profile);
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        public ActionResult DeclineFriend(int id, int id2)
+        {
+            var profile = db.Profiles.Find(id);
+            if (profile.UserId != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index");
+            }
+            List<ApplicationUser> friendRequests = new List<ApplicationUser>();
+            foreach (var user in profile.ReceivedFriends)
+            {
+                friendRequests.Add(user);
+            }
+            for (int j = 0; j < friendRequests.Count(); j++)
+            {
+                var user = friendRequests[j];
+                if (id2 == j)
+                {
+                    var userId = user.Id;
+                    var userProfile = db.Profiles.Where(p => p.UserId == userId).FirstOrDefault();
+
+                    profile.ReceivedFriends.Remove(user);
+                    userProfile.SentFriends.Remove(profile.User);
+
+                    db.SaveChanges();
+                    break;
+                }
+            }
+            return RedirectToAction("FriendRequests/" + id.ToString());
+        }
+        [Authorize(Roles = "User,Admin")]
+        public ActionResult DeleteFriend(int id, int id2)
+        {
+
+            var profile = db.Profiles.Find(id);
+            if (profile.UserId != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index");
+            }
+            var userId = profile.UserId;
+            var friendships1 = db.Friendships.Where(f => f.User1_Id == userId);
+            List<ApplicationUser> friends1 = new List<ApplicationUser>();
+            foreach (var friendship in friendships1)
+            {
+                friends1.Add(friendship.User2);
+            }
+            var friendships2 = db.Friendships.Where(f => f.User2_Id == userId);
+            List<ApplicationUser> friends2 = new List<ApplicationUser>();
+            foreach (var friendship in friendships2)
+            {
+                friends2.Add(friendship.User1);
+            }
+            var friends = friends1.Union(friends2);
+            List<ApplicationUser> Friends = new List<ApplicationUser>();
+            foreach(var friend in friends)
+            {
+                Friends.Add(friend);
+            }
+
+            for (int j = 0; j < Friends.Count(); j++)
+            {
+                var user = Friends[j];
+                if (id2 == j)
+                {
+                    var user2Id = user.Id;
+                    var userProfile = db.Profiles.Where(p => p.UserId == user2Id).FirstOrDefault();
+
+                    var friendShips = db.Friendships.Where(f => (f.User1_Id == userId && f.User2_Id == user2Id) || (f.User2_Id == userId && f.User1_Id == user2Id));
+                    foreach(var friendship in friendShips)
+                    {
+                        db.Friendships.Remove(friendship); 
+                    }
+                    db.SaveChanges();
+                    break;
+                }
+            }
+            return RedirectToAction("Friends/" + id.ToString());
+        }
+        [Authorize(Roles = "User,Admin")]
+        public ActionResult JoinedGroups(int id)
+        {
+            var profile = db.Profiles.Find(id);
+            var user = profile.User;
+            ViewBag.joinedGroups = user.Groups;
             return View(profile);
         }
     }
