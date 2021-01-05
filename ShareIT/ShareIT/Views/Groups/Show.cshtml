@@ -5,23 +5,22 @@
 
 @if (User.IsInRole("Admin") || User.IsInRole("User"))
 {
+<div class="ShowGroupTitle text-center container">
     <h2>@Model.GroupName</h2>
     <br />
-    <a href="/Groups/Index"> Inapoi la grupuri </a>
-    <br />
-    <br />
-
-    if (Model.Users.Contains(ViewBag.CurrentUser) || ViewBag.UserId == Model.CreatorId)
-    {
-        //<a class="btn btn-info" href="/Groups/New">Creeaza un grup</a>
-        <a class="btn btn-info" href="/Groups/Members/@Model.GroupId"> Membrii </a>
-        <a class="btn btn-primary" href="/Posts/New/@Model.GroupId">Adauga o postare in grup</a>
-        if (ViewBag.UserId != Model.CreatorId)
+    <a href="/Groups/Index" class="btn btn-info"> Inapoi la grupuri </a>
+</div>
+        if (Model.Users.Contains(ViewBag.CurrentUser) || ViewBag.UserId == Model.CreatorId)
         {
-            <a class="btn btn-danger btn pull-right" href="/Groups/Leave/@Model.GroupId">Iesi din grup</a>
-        }
-        <br />
-        <br />
+            //<a class="btn btn-info" href="/Groups/New">Creeaza un grup</a>
+            <a class="btn btn-info" href="/Groups/Members/@Model.GroupId"> Membrii </a>
+            <a class="btn btn-primary" href="/Posts/New/@Model.GroupId">Adauga o postare in grup</a>
+            if (ViewBag.UserId != Model.CreatorId)
+            {
+                <a class="btn btn-danger btn pull-right" href="/Groups/Leave/@Model.GroupId">Iesi din grup</a>
+            }
+            <br />
+            <br />
         <div class="panel panel-default">
             <div class="panel-heading">@Model.GroupName</div>
             <div class="panel-body">

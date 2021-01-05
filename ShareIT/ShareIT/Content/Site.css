@@ -3,7 +3,7 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: aqua;
+    background-color: #22c7b9;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -44,12 +44,13 @@ footer {
     width: 100%;
     margin-bottom: 0;
     bottom: 0;
+    position:fixed;
 }
 footer>p{
     color: white;
     align-content: center;
     margin: auto 0 auto 0;
-    padding: 1.25%;
+    padding: 1%;
 }
 .welcomeDiv{
     background-color:transparent;
@@ -122,4 +123,67 @@ button4:hover{
 }
 .butonRegister{
     margin-left: 20%;
+}
+
+.containerGroups {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-left: 50px;
+    padding-bottom: 50px;
+}
+.containerPanel {
+    padding: 20px;
+    text-align: center;
+    width: 500px;
+}
+.panelGroup {
+    box-shadow: 20px 15px 5px #415e5c;
+    background: -webkit-linear-gradient(black, grey);
+    color: white;
+}
+.panel-default > .panel-heading {
+    background-color: transparent;
+    color: white;
+    font-size: large;
+    font-family: 'Audiowide', cursive;
+}
+.panelFooter {
+    background-color: transparent;
+}
+.panel-footer{
+    border: none;
+}
+.panel{
+    border: 1px solid transparent;
+    border-radius: 30px;
+}
+.IndexMessage {
+    text-align: center;
+    background: -webkit-linear-gradient(black, grey);
+    margin-top: 20px;
+    color: white;
+    width: 50%;
+    border-radius: 80px;
+}
+
+.newEntity {
+    font-family: 'Audiowide', cursive;
+    margin-left: 26%;
+    margin-right: 30%;
+    background: -webkit-linear-gradient(black, grey);
+    padding: 2% 0% 4% 10%;
+    color: white;
+    border-radius: 30px;
+    margin-top: 3%;
+}
+.ShowGroupTitle {
+    font-family: 'Audiowide', cursive;
+    background: -webkit-linear-gradient(black, grey);
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+    width: 50%;
+    border-radius: 80px;
+    padding-top: 0.1%;
+    padding-bottom: 20px;
 }
