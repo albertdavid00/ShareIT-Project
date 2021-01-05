@@ -1,6 +1,9 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: aqua;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +24,102 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.welcomeHome {
+    font-family: 'Audiowide', cursive;
+    background: -webkit-linear-gradient(black, grey);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.layoutBody {
+/*    background-color: transparent;*/
+    background-repeat: no-repeat;
+    /*    background-repeat: no-repeat;*/
+}
+
+footer {
+    font-family: 'Audiowide', cursive;
+    background: -webkit-linear-gradient(black, grey);
+    width: 100%;
+    margin-bottom: 0;
+    bottom: 0;
+}
+footer>p{
+    color: white;
+    align-content: center;
+    margin: auto 0 auto 0;
+    padding: 1.25%;
+}
+.welcomeDiv{
+    background-color:transparent;
+    margin-top: 15%;
+    padding-bottom: 15%;
+}
+.HomePage{
+  /*  display: flex;
+    flex-direction: column;
+    min-height: 100%;*/
+}
+.navClass {
+    font-family: 'Audiowide', cursive;
+    background: -webkit-linear-gradient(black, grey);
+}
+
+.formularLogin {
+    margin-left: 46%;
+    margin-right: -4%;
+    background: -webkit-linear-gradient(black, grey);
+    padding: 8% 0% 4% 3%;
+    color: white;
+    border-radius: 30px;
+    margin-top: 3%;
+}
+.loginMessage {
+    margin-top: 5%;
+    font-family: 'Audiowide', cursive;
+}
+.butonLogin{
+    margin-left:37%;
+}
+
+button4{
+ display:inline-block;
+ padding:0.3em 1.2em;
+ margin:0 0.1em 0.1em 0;
+ border:0.16em solid rgba(255,255,255,0);
+ border-radius:2em;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:300;
+ color:#FFFFFF;
+ text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+ text-align:center;
+ transition: all 0.2s;
+}
+button4:hover{
+ border-color: rgba(255,255,255,1);
+}
+@media all and (max-width:30em){
+ button4{
+  display:block;
+  margin:0.2em auto;
+ }
+}
+
+.formularRegister {
+    margin-left: 26%;
+    margin-right: 30%;
+    background: -webkit-linear-gradient(black, grey);
+    padding: 8% 0% 4% 6%;
+    color: white;
+    border-radius: 30px;
+    margin-top: 3%;
+}
+.regMessage {
+    font-family: 'Audiowide', cursive;
+}
+.butonRegister{
+    margin-left: 20%;
 }

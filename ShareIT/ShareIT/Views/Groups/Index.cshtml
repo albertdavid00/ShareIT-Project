@@ -2,25 +2,26 @@
 @{
     ViewBag.Title = "Index";
 }
-<h1>@ViewBag.Message</h1>
-<h2> Grupuri </h2>
 
+<div class="containerGroups">
+    <h1>@ViewBag.Message</h1>
+    <h2> Grupuri </h2>
+    <a class="btn btn-primary" href="/Groups/New">Creeaza un grup</a>
+    <br />
+    <br />
+    @foreach (var group in ViewBag.Groups)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">@group.GroupName</div>
+            <div class="panel-body">
+                Descriere grup: <strong>@group.GroupDescription</strong>
+                <br />
+            </div>
 
-<a class="btn btn-primary" href="/Groups/New">Creeaza un grup</a>
-<br />
-<br />
-@foreach (var group in ViewBag.Groups)
-{
-    <div class="panel panel-default">
-        <div class="panel-heading">@group.GroupName</div>
-        <div class="panel-body">
-            Descriere grup: <strong>@group.GroupDescription</strong>
-            <br />
+            <div class="panel panel-footer">
+                <a class="btn btn-success btn btn-sm" href="/Groups/Show/@group.GroupId">Afisare grup</a>
+            </div>
         </div>
-
-        <div class="panel panel-footer">
-            <a class="btn btn-success btn btn-sm" href="/Groups/Show/@group.GroupId">Afisare grup</a>
-        </div>
-    </div>
-}
+    }
+</div>
 
