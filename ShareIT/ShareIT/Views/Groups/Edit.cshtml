@@ -3,28 +3,28 @@
 @{
     ViewBag.Title = "Edit";
 }
+<div class="editEntity">
+    <h2>Editare grup</h2>
+    <div style="color: black">
+        @using (Html.BeginForm(actionName: "Edit", controllerName: "Groups"))
+        {
 
-<h2>Editare grup</h2>
+            @Html.HttpMethodOverride(HttpVerbs.Put)
 
-@using (Html.BeginForm(actionName: "Edit", controllerName: "Groups"))
-{
+            @Html.Hidden("GroupId")
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-    @Html.HttpMethodOverride(HttpVerbs.Put)
-
-    @Html.Hidden("GroupId")
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
-    @Html.Label("GroupName", "Nume Grup")
-    <br />
-    @Html.Editor("GroupName")
-    <br />
-    <br />
-    @Html.Label("GroupDescription", "Descriere grup")
-    <br />
-    @Html.EditorFor(g => g.GroupDescription)
-    <br />
-    <br />
-    <hr />
-    <button class="btn btn-success" type="submit">Modifica grupul</button>
-}
-
+            <span > @Html.Label("GroupName", "Nume Grup") </span>
+            <br />
+            @Html.Editor("GroupName")
+            <br />
+            <br />
+            <span> @Html.Label("GroupDescription", "Descriere grup") </span>
+            <br />
+            @Html.EditorFor(g => g.GroupDescription)
+            <br />
+            <br />
+            <button class="btn btn-success" style="border: 1px solid black; background-color: whitesmoke; color: black;margin-left: 10%;" type="submit">Modifica grupul</button>
+        }
+    </div>
+</div>

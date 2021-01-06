@@ -3,9 +3,11 @@
     ViewBag.Title = "Friends";
 }
 
-<h2> Friends</h2>
-<div class="panel panel-default">
-    <div class="panel-heading"> Lista de prieteni </div>
+<h2 style="font-family: 'Audiowide', cursive;"> Friends</h2>
+<a style="background-color: #36b4e8; font-family: 'Audiowide', cursive;" class="btn btn-info" href="/Profiles/Show/@ViewBag.profileId">Inapoi la profil</a>
+<br /> <br />
+<div class="panel panel-default GroupMembers">
+    <div class="panel-heading" style="        border-radius: 20px; background-color: #36b4e8;"> Lista de prieteni </div>
     @for (int i = 0; i < ViewBag.Length; i++)
     {
         var user = ViewBag.friends[i];

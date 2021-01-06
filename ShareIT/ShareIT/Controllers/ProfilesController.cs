@@ -98,6 +98,10 @@ namespace ShareIT.Controllers
             {
                 ViewBag.sameUser = true;
             }
+            if (profile.SentFriends.Contains(currentUser))
+            {
+                ViewBag.noButton = true;
+            }
             return View(profile);
         }
         [Authorize(Roles = "User,Admin")]
@@ -240,6 +244,10 @@ namespace ShareIT.Controllers
             var currentUserProfile = prof.FirstOrDefault();
             var currentUser = db.Users.Find(currentUserId);
             if (currentUserProfile.SentFriends.Contains(user)  || currentUserProfile.Friends.Contains(user))
+            {
+                return RedirectToAction("Index");
+            }
+            if (profile.SentFriends.Contains(currentUser))
             {
                 return RedirectToAction("Index");
             }

@@ -3,16 +3,18 @@
     ViewBag.Title = "FriendRequests";
 }
 
-<h2>Friend Requests</h2>
-<div class="panel panel-default">
-    <div class="panel-heading"> Lista cereri primite </div>
+<h2 style="font-family: 'Audiowide', cursive;">Friend Requests</h2>
+<a style="        background-color: #36b4e8; font-family: 'Audiowide', cursive;" class="btn btn-info" href="/Profiles/Show/@ViewBag.profileId">Inapoi la profil</a>
+<br /> <br />
+<div class="panel panel-default GroupMembers">
+    <div class="panel-heading text-center" style="border-radius: 20px;background-color: #36b4e8;"> Lista cereri primite </div>
     @for (int i = 0; i < ViewBag.Length; i++)
     {
         var user = ViewBag.FriendRequests[i];
         <div class="panel-body">
             <strong>@user.UserName</strong>
-            <a class="btn btn-danger pull-right" href="/Profiles/DeclineFriend/@ViewBag.profileId/@i"> Refuza cererea </a>
-            <a class="btn btn-success pull-right" href="/Profiles/AddFriend/@ViewBag.profileId/@i"> Adauga prieten </a>
+            <a class="btn btn-danger pull-right" href="/Profiles/DeclineFriend/@ViewBag.profileId/@i" style="margin-left: 10px"> Refuza cererea </a>
+            <a class="btn btn-succes pull-right" style="background-color: #36b4e8; color: black;" href="/Profiles/AddFriend/@ViewBag.profileId/@i"> Adauga prieten </a>
             <br /> <hr />
         </div>
     }

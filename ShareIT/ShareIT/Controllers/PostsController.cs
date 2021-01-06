@@ -78,7 +78,7 @@ namespace ShareIT.Controllers
                 {
                     db.Posts.Add(post);
                     db.SaveChanges();
-                    TempData["message"] = "Postarea a fost adaugata cu succes";
+                    TempData["message"] = "Postarea a fost adaugata";
                     return RedirectToAction("Index");
                 }
                 else

@@ -2,33 +2,30 @@
 @{
     ViewBag.Titlu = "New";
 }
+<div class="newEntity">
+    <h2>Adaugare profil</h2>
+    <h2> @ViewBag.Friend </h2>
+    @using (Html.BeginForm(actionName: "New", controllerName: "Profiles"))
+    {
 
-<h2>Adaugare profil</h2>
-<h2> @ViewBag.Friend </h2>
-@using (Html.BeginForm(actionName: "New", controllerName: "Profiles"))
-{
-
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-    @Html.Label("Nume Profil")
-    <br />
-    @Html.TextBox("ProfileName", null, new { @class = "form-control" })
-    <br />
-    @Html.Label("ProfileDescription", "Descriere Profil")
-    <br />
-    @Html.TextArea("ProfileDescription", null, new { @class = "form-control" })
-    <br />
-    <br />
-    @Html.Label("PrivateProfile", "Tip profil")
-    <br />
-    <text> Privat: </text>
-    @Html.RadioButtonFor(m => m.PrivateProfile, true)
-    <text> Public: </text>
-    @Html.RadioButtonFor(m => m.PrivateProfile, false)
-    <br />
-    @*@Html.Label("ProfilePicture", "Fotografie de profil")
-    <br />
-    <input type="file" name="ProfilePicture" accept=".png,.jpg,.jpeg,.gif,.tif"/>
-    <br />*@
-    <button type="submit">Adauga profil</button>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @Html.Label("Nume Profil")
+        <br />
+        @Html.TextBox("ProfileName", null, new { @class = "form-control" })
+        <br />
+        @Html.Label("ProfileDescription", "Descriere Profil")
+        <br />
+        @Html.TextArea("ProfileDescription", null, new { @class = "form-control" })
+        <br />
+        <br />
+        @Html.Label("PrivateProfile", "Tip profil")
+        <br />
+        <text> Privat: </text>
+        @Html.RadioButtonFor(m => m.PrivateProfile, true)
+        <text> Public: </text>
+        @Html.RadioButtonFor(m => m.PrivateProfile, false)
+        <br />
+<button type="submit" style="background-color: whitesmoke; border: 1px solid black; color: black; margin-left: 21%;">Adauga profil</button>
 
 }
+</div>

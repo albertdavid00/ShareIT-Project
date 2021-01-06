@@ -1,23 +1,28 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-<h1>@ViewBag.Message</h1>
-<h2>Afisare postari</h2>
-
-<a class="btn btn-primary" href="/Posts/New">Adauga postare</a>
-<br /> <br />
-@foreach (var post in ViewBag.Posts)
-{
-    <div class="panel panel-default">
-        <div class="panel-heading">@post.Title</div>
-        <div class="panel-body">
-            Continut postare: <strong>@post.Content</strong>
-            <br />
-            <span class="label label-success">@post.Date</span>
-            <br />
+<div class="IndexMessageP text-center container">
+    <h1>@ViewBag.Message</h1>
+    <h2 style="margin-top: 7%; font-family: 'Audiowide', cursive;">News Feed</h2>
+    <a class="btn btn-primary" href="/Posts/New" style="background-color:#36b4e8; color: black">Adauga postare</a>
+</div>
+<br /><br />
+<div class="containerPosts">
+    @foreach (var post in ViewBag.Posts)
+    {
+        <div class="containerPanelP">
+            <div class="panel panel-default panelGroup">
+                <div class="paanelHeder panel-heading">@post.Title</div>
+                <div class="panel-body">
+                    <strong>@post.Content</strong>
+                    <br />
+                    <span class="label label-success" style="background-color: #36b4e8;">@post.Date</span>
+                    <br />
+                </div>
+                <div class="panel panel-footer panelFooter">
+                    <a class="btn btn-success btn btn-sm" style="background-color: #36b4e8; color: black"href="/Posts/Show/@post.Id">Afisare postare</a>
+                </div>
+            </div>
         </div>
-        <div class="panel panel-footer">
-            <a class="btn btn-success btn btn-sm" href="/Posts/Show/@post.Id">Afisare postare</a>
-        </div>
-    </div>
-}
+    }
+</div>

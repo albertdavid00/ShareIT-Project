@@ -1,15 +1,15 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+<div class="IndexMessage text-center container">
+    <h1>@ViewBag.Message</h1>
+    <h2>Profiles List</h2>
 
-<h2>Profiles List</h2>
-<h1>@ViewBag.Message</h1>
-
-@if (User.IsInRole("Admin") || ViewBag.NoProfile == 0)
-{
-    <a class="btn btn-primary" href="/Profiles/New">Adauga profil</a>
-}
-<br /><br />
+    @if (User.IsInRole("Admin") || ViewBag.NoProfile == 0)
+    {
+        <a class="btn btn-primary" href="/Profiles/New" style="background-color: #36b4e8; color: black">Adauga profil</a>
+    }
+    <br /><br />
     <div class="container">
         <br />
         <div class="row justify-content-center">
@@ -21,14 +21,15 @@
                         </div>
                         <!--end of col-->
                         <div class="col">
-                            <input class="form-control form-control-lg form-controlborderless" type="text" name="search"
-                                    value="@ViewBag.SearchString"
-                                    placeholder="Search topics or keywords">
+                            <input class="form-control form-control-lg form-controlborderless barSearch" type="text" name="search"
+                                   value="@ViewBag.SearchString"
+                                   placeholder="Search topics or keywords">
                         </div>
+                        <br />
                         <!--end of col-->
                         <div class="col-auto">
-                            <button class="btn btn-lg btn-success"
-                                    type="submit">
+                            <button class="btn btn-lg btn-success btnSearch"
+                                    type="submit" href="/Profiles/New" style="background-color: #36b4e8; color: black">
                                 Search
                             </button>
                         </div>
@@ -46,7 +47,7 @@
                     @if (ViewBag.search != "")
                     {
                         <a href="/Profiles/Index?page=1&search=@ViewBag.SearchString"
-                            aria-label="Previous">
+                           aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     }
@@ -87,28 +88,33 @@
             </ul>
         </nav>
     </div>
-<br />
-<hr />
-@foreach (var profile in ViewBag.Profiles)
-{
-    <div class="panel panel-default">
-        <div class="panel-heading">@profile.ProfileName</div>
-        <div class="panel-body">
-            Descriere profil: <strong>@profile.ProfileDescription</strong>
-            <br /><br />
-            Profilul este: @if (profile.PrivateProfile == true)
-            {
-                <text>privat</text>
-            }
-            else
-            { <text>public</text>}
-            <br />
-            <span class="label label-success">@profile.SignUpDate</span>
-            <br />
-            <hr>
+    <br />
+    <br />
+</div>
+<div class="containerGroups">
+    @foreach (var profile in ViewBag.Profiles)
+    {
+        <div class="containerPanel">
+            <div class="panel panel-default panelGroup">
+                <div class="paanelHeder panel-heading">@profile.ProfileName</div>
+                <div class="panel-body">
+                    Descriere profil: <strong>@profile.ProfileDescription</strong>
+                    <br /><br />
+                    Profilul este: @if (profile.PrivateProfile == true)
+                    {
+                        <text>privat</text>
+                    }
+                    else
+                    { <text>public</text>}
+                    <br />
+                    <span class="label label-success" style= "background-color:#36b4e8;">@profile.SignUpDate</span>
+                    <br />
+                    <hr>
+                </div>
+                <div class="panel panel-footer panelFooter">
+                    <a class="btn btn-success btn btn-sm" style= "background-color: #36b4e8; color: black" href="/Profiles/Show/@profile.ProfileId">Afisare profil</a>
+                </div>
+            </div>
         </div>
-        <div class="panel panel-footer">
-            <a class="btn btn-success btn btn-sm" href="/Profiles/Show/@profile.ProfileId">Afisare profil</a>
-        </div>
-    </div>
-}
+    }
+</div>

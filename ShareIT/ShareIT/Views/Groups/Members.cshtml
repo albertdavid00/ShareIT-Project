@@ -3,18 +3,17 @@
     ViewBag.Title = "Members";
 }
 
-<h2>Membrii grupului</h2>
+<h2 style="font-family: 'Audiowide', cursive;">Membrii grupului</h2>
 <br />
-<a class="btn btn-link" href="/Groups/Show/@Model.GroupId">Inapoi la grup</a>
+<a style="background-color: #36b4e8; font-family: 'Audiowide', cursive;" class="btn btn-info" href="/Groups/Show/@Model.GroupId">Inapoi la grup</a>
 <br /> <br />
-<div class="panel panel-default">
-    <div class="panel-heading"> Lista membrii </div>
+<div class="panel panel-default GroupMembers">
+    <div class="panel-heading " style="border-radius: 20px; background-color: #36b4e8;"> Lista membrii </div>
+        @foreach (var member in ViewBag.Members)
+        {
 
-    @foreach (var member in ViewBag.Members)
-    {
-        
-        <div class="panel-body">
-            <strong>@member.UserName</strong>
+            <div class="panel-body">
+                <strong>@member.UserName</strong>
                 @if (ViewBag.currentUserId == ViewBag.OwnerId)
                 {
                     <a class="btn btn-danger pull-right" href="/Groups/DeleteMember/@member.UserName/@Model.GroupId">Elimina membru</a>
@@ -23,10 +22,11 @@
                 {
                     if (profile.UserId == member.Id)
                     {
-                        <a class="btn btn-success pull-right" href="/Profiles/Show/@profile.ProfileId">Afisare profil</a>
+                        <a class="btn btn-success pull-right" style=" background-color: #36b4e8; color: black;" href="/Profiles/Show/@profile.ProfileId">Afisare profil</a>
                     }
                 }
                 <br /> <hr />
-        </div>
-    }
+            </div>
+        }
 </div>
+<br /><br /> <br /> <br />

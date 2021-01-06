@@ -3,7 +3,7 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: #22c7b9;
+    background-color: #d6f3ffad;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -40,14 +40,14 @@ textarea {
 
 footer {
     font-family: 'Audiowide', cursive;
-    background: -webkit-linear-gradient(black, grey);
+    background: #36b4e8;
     width: 100%;
     margin-bottom: 0;
     bottom: 0;
-    position:fixed;
+    position: fixed;
 }
 footer>p{
-    color: white;
+    color: black;
     align-content: center;
     margin: auto 0 auto 0;
     padding: 1%;
@@ -64,15 +64,21 @@ footer>p{
 }
 .navClass {
     font-family: 'Audiowide', cursive;
-    background: -webkit-linear-gradient(black, grey);
+    background: #36b4e8;
+    color: black;
 }
-
+.navbar-inverse .navbar-nav > li > a{
+    color: black;
+}
+.navbar-inverse .navbar-brand{
+    color: white;
+}
 .formularLogin {
     margin-left: 46%;
     margin-right: -4%;
-    background: -webkit-linear-gradient(black, grey);
+    background: #36b4e8;
     padding: 8% 0% 4% 3%;
-    color: white;
+    color: black;
     border-radius: 30px;
     margin-top: 3%;
 }
@@ -112,9 +118,9 @@ button4:hover{
 .formularRegister {
     margin-left: 26%;
     margin-right: 30%;
-    background: -webkit-linear-gradient(black, grey);
+    background: #36b4e8;
     padding: 8% 0% 4% 6%;
-    color: white;
+    color: black;
     border-radius: 30px;
     margin-top: 3%;
 }
@@ -137,16 +143,25 @@ button4:hover{
     width: 500px;
 }
 .panelGroup {
-    box-shadow: 20px 15px 5px #415e5c;
-    background: -webkit-linear-gradient(black, grey);
-    color: white;
+    border: 1px solid black;
+    box-shadow: 20px 15px 10px #c0bcbc;
+    color: black;
+    background: smokegrey;
 }
 .panel-default > .panel-heading {
-    background-color: transparent;
-    color: white;
+    background-color: #36b4e8;
+    color: black;
     font-size: large;
     font-family: 'Audiowide', cursive;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
 }
+/*.panel-default > .panel-heading {
+background-color: transparent;
+color: white;
+font-size: large;
+font-family: 'Audiowide', cursive;
+}*/
 .panelFooter {
     background-color: transparent;
 }
@@ -154,14 +169,17 @@ button4:hover{
     border: none;
 }
 .panel{
-    border: 1px solid transparent;
+/*    border: 1px solid transparent;*/
     border-radius: 30px;
 }
 .IndexMessage {
+    font-family: 'Audiowide', cursive;
+    border: 1px solid;
+    box-shadow: 10px 10px 10px grey;
+    background: whitesmoke;
     text-align: center;
-    background: -webkit-linear-gradient(black, grey);
     margin-top: 20px;
-    color: white;
+    color: black;
     width: 50%;
     border-radius: 80px;
 }
@@ -170,20 +188,165 @@ button4:hover{
     font-family: 'Audiowide', cursive;
     margin-left: 26%;
     margin-right: 30%;
-    background: -webkit-linear-gradient(black, grey);
+    background: #36b4e8;
+    border: 1px solid black;
     padding: 2% 0% 4% 10%;
-    color: white;
+    color: black;
     border-radius: 30px;
     margin-top: 3%;
 }
 .ShowGroupTitle {
     font-family: 'Audiowide', cursive;
-    background: -webkit-linear-gradient(black, grey);
-    color: white;
+    background: whitesmoke;
+    color: black;
+    border: 1px solid black;
     text-align: center;
     margin-top: 20px;
     width: 50%;
     border-radius: 80px;
     padding-top: 0.1%;
     padding-bottom: 20px;
+    box-shadow: 10px 10px 10px grey;
+}
+.notInGroup {
+    background: whitesmoke;
+    border: 1px solid black;
+    margin-top: 30px;
+    width:50%;
+    border-radius: 80px;
+    color: black;
+    padding-bottom: 10px;
+}
+.divButoane {
+    background: whitesmoke;
+    border: 1px solid black;
+    margin: 20px 0px 0px 0px;
+    padding: 20px 10px 20px 10px;
+    border-radius: 20px;
+    width: 99.8%;
+    font-family: 'Audiowide', cursive;
+    box-shadow: 10px 10px 10px grey;
+}
+.groupInfo {
+    background-color:whitesmoke;
+    color: black;
+    box-shadow: 10px 10px 10px grey;
+    border: 1px solid black;
+}
+.GroupPosts {
+    background: whitesmoke;
+    color: black;
+    width: 90%;
+    margin-left: 5%;
+    box-shadow: 10px 10px 10px grey;
+    border: 1px solid black;
+}
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+.GroupMembers {
+    background:whitesmoke;
+    border: 1px solid black;
+    color: black;
+    margin-bottom: -10px;
+    border-radius: 20px;
+}
+.editEntity {
+    font-family: 'Audiowide', cursive;
+    margin-left: 26%;
+    margin-right: 30%;
+    background: #36b4e8;
+    border: 1px solid black;
+    padding: 2% 0% 4% 13%;
+    color: black;
+    border-radius: 30px;
+    margin-top: 3%;
+}
+
+
+
+.IndexMessageP {
+    text-align: center;
+    border: 1px solid;
+    box-shadow: 10px 10px 10px grey;
+    background: whitesmoke;
+    margin-top: 20px;
+    color: black;
+    width: 50%;
+    border-radius: 80px;
+    height: 4%;
+}
+
+.containerPanelP {
+    margin-left: -25%;
+    padding: 20px;
+    text-align: center;
+    width: 1000px;
+}
+
+.btnSearch {
+    margin-left: -31%;
+}
+
+.barSearch {
+    margin-left: 17%;
+}
+
+.containerPosts {
+    display: grid;
+    grid-template-columns: auto;
+    margin-left: 28%;
+    padding-bottom: 50px;
+}
+
+.editEntityComm {
+    font-family: 'Audiowide', cursive;
+    margin-left: 25%;
+    margin-right: 25%;
+    background: #36b4e8;
+    border: 1px solid black;
+    padding: 2% 0% 4% 13%;
+    color: black;
+    border-radius: 30px;
+    margin-top: 3%;
+}
+
+.IndexMessageShow {
+    font-family: 'Audiowide', cursive;
+    text-align: center;
+    background: whitesmoke;
+    margin-top: 20px;
+    color: black;
+    border: 1px solid black;
+    width: 50%;
+    border-radius: 80px;
+    margin-left: 23%;
+    height: 18%;
+}
+
+.containerShow {
+    display: grid;
+    grid-template-columns: auto;
+    margin-left: -3%;
+    padding-bottom: 50px;
+}
+
+.showHeader {
+    text-align: center;
+}
+
+.inpShow {
+    margin-left: 31%;
+}
+
+.CreateAcc {
+    font-family: 'Audiowide';
+    text-align: center;
+    color: white;
+    font-size: 20px;
 }

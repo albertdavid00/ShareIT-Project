@@ -23,6 +23,7 @@ namespace ShareIT.Controllers
             }
             return View();
         }
+        [Authorize(Roles = "User, Admin")]
         public ActionResult Show(int id)
         {
             ViewBag.CurrentUser = db.Users.Find(User.Identity.GetUserId());

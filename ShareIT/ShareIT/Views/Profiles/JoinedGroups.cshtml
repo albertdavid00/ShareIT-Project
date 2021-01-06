@@ -3,19 +3,24 @@
     ViewBag.Title = "JoinedGroups";
 }
 
-<h2>Grupuri</h2>
+<h2 style="font-family: 'Audiowide', cursive;">Grupuri</h2>
 <br />
-<a class="btn btn-link" href="/Profiles/Show/@Model.ProfileId">Inapoi la profil</a>
-<br /> <br />
-<div class="panel panel-default">
-    <div class="panel-heading"> Lista grupuri </div>
+<a style="        background-color: #36b4e8; font-family: 'Audiowide', cursive;" class="btn btn-info" href="/Profiles/Show/@Model.ProfileId">Inapoi la profil</a>
+<br />
+<br />
+<div class="panel panel-default GroupMembers">
+    <div class="panel-heading" style="        border-radius: 20px;background-color: #36b4e8;"> Lista grupuri </div>
 
     @foreach (var group in ViewBag.joinedGroups)
     {
         <div class="panel-body">
             <strong>@group.GroupName</strong>
-            <a class="btn btn-success pull-right" href="/Groups/Show/@group.GroupId"> Afisare grup</a>
+            <a class="btn btn-success pull-right" style="font-family: 'Audiowide', cursive; background-color: #36b4e8; color: black;" href="/Groups/Show/@group.GroupId"> Afisare grup</a>
             <br /> <hr />
         </div>
     }
 </div>
+<br />
+<br />
+<br />
+<br />

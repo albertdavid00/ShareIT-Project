@@ -3,27 +3,28 @@
     //ViewBag.Title = "Edit";
 }
 
-<h2>Editare postare</h2>
+<div class="editEntity" style="color: black">
 
-<p> Afisare formular de editare a postarii - cu datele vechi ale postarii</p>
+    <h2 style="color: black;">Edit postare</h2>
 
-@using (Html.BeginForm(actionName: "Edit", controllerName: "Posts"))
-{
-    @Html.HttpMethodOverride(HttpVerbs.Put)
-    @Html.Hidden("Id")
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-    @Html.Label("Title", "Titlu Postare")
-    <br />
-    @Html.Editor("Title")
-   // @Html.ValidationMessage("Title", null, new { @class = "text-danger" })
-    <br />
-    <br />
-    @Html.Label("Content", "Continut Postare")
-    <br />
-    @Html.EditorFor(m => m.Content)
-   // @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
-    <br />
-    <br />
-    @Html.Hidden("Date")
-    <button type="btn btn-succes">Editeaza postare</button>
-}
+    @using (Html.BeginForm(actionName: "Edit", controllerName: "Posts"))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+        @Html.Hidden("Id")
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <span > @Html.Label("Title", "Titlu Postare") </span>
+        <br />
+        @Html.Editor("Title")
+        // @Html.ValidationMessage("Title", null, new { @class = "text-danger" })
+        <br />
+        <br />
+        <span> @Html.Label("Content", "Continut Postare") </span>
+        <br />
+        @Html.EditorFor(m => m.Content)
+        // @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+        <br />
+        <br />
+        @Html.Hidden("Date")
+        <button style=" border:1px solid black; background-color: whitesmoke; color: black; margin-left: 10%;" type="btn btn-succes">Editeaza postare</button>
+        }
+</div>

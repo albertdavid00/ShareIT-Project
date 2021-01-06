@@ -3,35 +3,34 @@
 @{
     ViewBag.Title = "Edit";
 }
+<div class="editEntity" style="color: black">
+    @using (Html.BeginForm(actionName: "Edit", controllerName: "Profiles"))
+    {
 
-@using (Html.BeginForm(actionName: "Edit", controllerName: "Profiles"))
-{
+        @Html.HttpMethodOverride(HttpVerbs.Put)
 
-    @Html.HttpMethodOverride(HttpVerbs.Put)
+        @Html.Hidden("ProfileId")
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-    @Html.Hidden("ProfileId")
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
-    @Html.Label("ProfileName", "Nume Profil")
-    <br />
-    @Html.Editor("ProfileName")
-    <br />
-    <br />
-    @Html.Label("ProfileDescription", "Descriere profil")
-    <br />
-    @Html.EditorFor(m => m.ProfileDescription)
-    <br />
-    <br />
-    @Html.Hidden("Date")
-    <br />
-    @Html.Label("PrivateProfile", "Tip profil")
-    <br />
-    <text> Privat: </text>
-    @Html.RadioButtonFor(m => m.PrivateProfile, true)
-    <text> Public: </text>    
-    @Html.RadioButtonFor(m => m.PrivateProfile, false)
-<br />
-<hr />
-<button class="btn btn-success" type="submit">Modifica profil</button>
-}
-
+        <span>@Html.Label("ProfileName", "Nume Profil") </span>
+        <br />
+        @Html.Editor("ProfileName")
+        <br />
+        <br />
+        <span> @Html.Label("ProfileDescription", "Descriere profil") </span>
+        <br />
+        @Html.EditorFor(m => m.ProfileDescription)
+        <br />
+        <br />
+        @Html.Hidden("Date")
+        <br />
+        <span> @Html.Label("PrivateProfile", "Tip profil") </span>
+        <br />
+        <span> Privat: </span>
+        @Html.RadioButtonFor(m => m.PrivateProfile, true)
+        <span> Public: </span>
+        @Html.RadioButtonFor(m => m.PrivateProfile, false)
+        <br /> <br />
+        <button class="btn btn-success" type="submit" style=" border: 1px solid black; background-color: whitesmoke; color: black; margin-left: 10%;">Modifica profil</button>
+    }
+</div>

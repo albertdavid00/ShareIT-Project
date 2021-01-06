@@ -3,16 +3,20 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Editare comentariu</h2>
-@using (Html.BeginForm(actionName: "Edit", controllerName: "Comments"))
-{
-    @Html.HttpMethodOverride(HttpVerbs.Put)
+<div class="editEntityComm">
 
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-    @Html.Label("Content", "Continut Comentariu")
-    <br />
-    @Html.TextArea("Content", null, new { @class = "form-control" })
-    //@Html.ValidationMessage("Content", null, new { @class = "text-danger" })
-    <br />
-    <button class="btn btn-success" type="submit">Editeaza comentariu</button>
-}
+    <h2>Edit comment</h2>
+    @using (Html.BeginForm(actionName: "Edit", controllerName: "Comments"))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @Html.Label("Content", "Continut Comentariu")
+        <br />
+        @Html.TextArea("Content", null, new { @class = "form-control" })
+        //@Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+        <br />
+        <button class="btn btn-success" style=" border: 1px solid black; background-color: whitesmoke; color: black; margin-left: 10%;" type="submit">Editeaza comentariu</button>
+    }
+
+</div>

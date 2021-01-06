@@ -8,23 +8,26 @@
 <div class="ShowGroupTitle text-center container">
     <h2>@Model.GroupName</h2>
     <br />
-    <a href="/Groups/Index" class="btn btn-info"> Inapoi la grupuri </a>
+    <a style="        background-color: #36b4e8;" href="/Groups/Index" class="btn btn-info"> Inapoi la grupuri </a>
 </div>
         if (Model.Users.Contains(ViewBag.CurrentUser) || ViewBag.UserId == Model.CreatorId)
         {
             //<a class="btn btn-info" href="/Groups/New">Creeaza un grup</a>
-            <a class="btn btn-info" href="/Groups/Members/@Model.GroupId"> Membrii </a>
-            <a class="btn btn-primary" href="/Posts/New/@Model.GroupId">Adauga o postare in grup</a>
-            if (ViewBag.UserId != Model.CreatorId)
-            {
+            <div class="divButoane container">
+                <a style="        background-color: #36b4e8; color: black;" class="btn btn-info" href="/Groups/Members/@Model.GroupId"> Membrii </a>
+                <a style="        background-color: #36b4e8; color: black;" class="btn btn-primary" href="/Posts/New/@Model.GroupId">Adauga o postare in grup</a>
+
+                @if (ViewBag.UserId != Model.CreatorId)
+                {
                 <a class="btn btn-danger btn pull-right" href="/Groups/Leave/@Model.GroupId">Iesi din grup</a>
-            }
+                }
+            </div>
             <br />
             <br />
-        <div class="panel panel-default">
-            <div class="panel-heading">@Model.GroupName</div>
-            <div class="panel-body">
-                Descriere grup: <strong>@Model.GroupDescription</strong>
+        <div class="panel panel-default groupInfo">
+            <div class="panel-heading text-center">@Model.GroupName</div>
+            <div class="panel-body text-center">
+               <strong>@Model.GroupDescription</strong>
                 <br /> <br />
                 <i class="glyphicon glyphicon-user"></i>
                 <strong>Owner: @ViewBag.OwnerName </strong>
@@ -32,7 +35,7 @@
                 <hr>
                 @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.CreatorId == ViewBag.UserId))
                 {
-                    <a class="btn btn-success pull-left" href="/Groups/Edit/@Model.GroupId"> Modifica grupul </a>
+                    <a style="        background-color: #36b4e8; color: black;" class="btn btn-success pull-left" href="/Groups/Edit/@Model.GroupId"> Modifica grupul </a>
                     <form method="post" action="/Groups/Delete/@Model.GroupId">
                         @Html.HttpMethodOverride(HttpVerbs.Delete)
                         <button class="btn btn-danger pull-right" type="submit"> Sterge grupul </button>
@@ -40,27 +43,31 @@
                 }
             </div>
         </div>
-        foreach (var post in ViewBag.Posts)
-        {
-            <div class="panel panel-default">
-                <div class="panel-heading">@post.Title</div>
-                <div class="panel-body">
-                    Continut postare: <strong>@post.Content</strong>
+        <br />
+        <br />
+            foreach (var post in ViewBag.Posts)
+            {
+            <div class="panel panel-default GroupPosts">
+                <div class="panel-heading text-center">@post.Title</div>
+                <div class="panel-body text-center">
+                    <strong>@post.Content</strong>
                     <br />
-                    <span class="label label-success">@post.Date</span>
+                    <span style="        background-color: #36b4e8; color: black;" class="label label-success">@post.Date</span>
                     <br />
                 </div>
-                <div class="panel panel-footer">
-                    <a class="btn btn-success btn btn-sm" href="/Posts/Show/@post.Id">Afisare postare</a>
+                <div class="panel panel-footer text-center " style="background-color:transparent;">
+                    <a style="        background-color: #36b4e8; color: black;" class="btn btn-success btn btn-sm" href="/Posts/Show/@post.Id">Afisare postare</a>
                 </div>
             </div>
             <br />
             <hr />
-        }
+            }
     }
     else
     {
-        <h2> Nu faci parte din acest grup! </h2>
-        <a class="btn btn-success btn btn-sm" href="/Groups/Join/@Model.GroupId">Intra in grup</a>
+        <div style="font-family: 'Audiowide', cursive;" class="container text-center notInGroup">
+            <h2> Nu faci parte din acest grup! </h2>
+            <a style="        background-color: #36b4e8; color: black" class="btn btn-success btn" href="/Groups/Join/@Model.GroupId">Intra in grup</a>
+        </div>
     }
 }

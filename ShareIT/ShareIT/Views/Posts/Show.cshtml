@@ -3,119 +3,112 @@
     ViewBag.Title = "Afisare postare";
 }
 
-<h2>Afisare postare</h2>
+<div class="IndexMessageShow">
+    <h2>Afisare postare</h2>
 
-@*<h1>@ViewBag.Posts.Title</h1>
-    <p>@ViewBag.Posts.Content</p>
-    <small>@ViewBag.Posts.Date</small>
+    <a class="btn btn-info" href="/Posts/Index" style="        background-color: #36b4e8; color: black;">Inapoi la lista postarilor</a>
+    <a class="btn btn-info" href="/Posts/New" style="        background-color: #36b4e8; color: black;">Adauga alta postare</a>
     <br />
-    <a href="/Posts/Edit/@ViewBag.Posts.Id">Modifica postare</a>
-
-    <form method="post" action="/Posts/Delete/@ViewBag.Posts.Id">
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <button type="submit">Sterge postarea</button>
-    </form>
-    <hr />*@
-<a href="/Posts/Index">Inapoi la lista postarilor</a>
-<br />
-<a href="/Posts/New">Adauga alta postare</a>
-<br />
-
-
-<div class="panel panel-default">
-    <div class="panel-heading">@Model.Title</div>
-    <div class="panel-body">
-        Continut postare: <strong>@Model.Content</strong>
-        <br />
-        <i class="glyphicon glyphicon-user"></i> <i>Autor postare: </i>
-        <strong> @Model.User.UserName </strong>
-        <br />
-        <span class="label label-success">@Model.Date</span>
-
-        <br />
-        <hr>
-        @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.UserId == ViewBag.UserId))
-        {
-            <a class="btn btn-success pull-left"
-               href="/Posts/Edit/@Model.Id">Modifica postare</a>
-            <form method="post" action="/Posts/Delete/@Model.Id">
-                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                <button class="btn btn-danger pull-right" type="submit">
-                    Sterge postare
-                </button>
-            </form>
-        }
-    </div>
 </div>
 <br />
+<div class="containerShow">
+    <div class="panel panel-default panelGroup">
+        <div class="panel-heading showHeader">@Model.Title</div>
+        <div class="panel-body text-center">
+            <strong>@Model.Content</strong>
+            <br /><br />
+            <i class="glyphicon glyphicon-user"></i> <i>Autor postare: </i>
+            <strong> @Model.User.UserName </strong>
+            <br />
+            <span class="label label-success" style="background-color:#36b4e8;">@Model.Date</span>
 
-@foreach (var comm in Model.Comments)
-{
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div>
-                    <i class="glyphicon glyphicon-user"></i>
-                    <small> @comm.User.UserName </small>
-                    <br />
-                    <p>@comm.Content</p>
-                    <small class="pull-right">@comm.Date</small>
-                </div>
-                <div style="display: inline-block; float : left; margin-right: 15px">
-                    @if (User.IsInRole("Admin") || (User.IsInRole("User") && comm.UserId == ViewBag.UserId))
-                    {
-                        <a class="glyphicon glyphicon-pencil"
-                           href="/Comments/Edit/@comm.CommentId"></a>
-                    }
-                </div>
+            <br />
+            <hr>
+            @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.UserId == ViewBag.UserId))
+            {
+                <a class="btn btn-success pull-left" style="background-color:#36b4e8;"
+                   href="/Posts/Edit/@Model.Id">Modifica postare</a>
+                <form method="post" action="/Posts/Delete/@Model.Id">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger pull-right" type="submit">
+                        Sterge postare
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+    <br />
+</div>
 
-                <div style="display: inline-block; float : left">
-                    @if (User.IsInRole("Admin") || (User.IsInRole("User") && comm.UserId == ViewBag.UserId))
-                    {
-                        <form method="post" action="/Comments/Delete/@comm.CommentId">
-                            @Html.HttpMethodOverride(HttpVerbs.Delete)
-                            <button class="glyphicon glyphicon-trash" style="border: none;
+<div class="containerShow">
+    @foreach (var comm in Model.Comments)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 panelGroup text-center">
+                    <div>
+                        <i class="glyphicon glyphicon-user"></i>
+                        <small> @comm.User.UserName </small>
+                        <br />
+                        <p>@comm.Content</p>
+                        <small class="pull-right">@comm.Date</small>
+                    </div>
+                    <div style="display: inline-block; float : left; margin-right: 15px">
+                        @if (User.IsInRole("Admin") || (User.IsInRole("User") && comm.UserId == ViewBag.UserId))
+                        {
+                            <a class="glyphicon glyphicon-pencil"
+                               href="/Comments/Edit/@comm.CommentId"></a>
+                        }
+                    </div>
+
+                    <div style="display: inline-block; float : left">
+                        @if (User.IsInRole("Admin") || (User.IsInRole("User") && comm.UserId == ViewBag.UserId))
+                        {
+                            <form method="post" action="/Comments/Delete/@comm.CommentId">
+                                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                <button class="glyphicon glyphicon-trash" style="border: none;
 background: transparent" type="submit"></button>
-                        </form>
-                    }
+                            </form>
+                        }
+                    </div>
                 </div>
+                <div class="col-md-2"></div>
             </div>
-            <div class="col-md-2"></div>
         </div>
-    </div>
-    <hr />
-}
-@if (User.IsInRole("Admin") || User.IsInRole("User"))
-{
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-8">
-                <div class="panel">
-                    @using (Html.BeginForm(actionName: "New", controllerName: "Comments"))
-                    {
-                        <div class="panel-body">
-                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                            <input type="hidden" name="PostId" value="@Model.Id" />
-                            @Html.Label("Content", "Continut Comentariu")
-                            <br />
-                            <textarea class="form-control" name="Content"></textarea>
-                            @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
-                            <br />
-                            <button class="btn btn-success " type="submit">
-                                Adauga comentariu
-                            </button>
-                        </div>
-                    }
+        <hr />
+    }
+    @if (User.IsInRole("Admin") || User.IsInRole("User"))
+    {
+        <div class="container ">
+            <div class="row">
+                <div class="col-md-2">
                 </div>
+                <div class="col-md-8 ">
+                    <div class="panel">
+                        @using (Html.BeginForm(actionName: "New", controllerName: "Comments"))
+                        {
+                            <div class="panel-body panelGroup text-center">
+                                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                                <input class="inpShow" type="hidden" name="PostId" value="@Model.Id" />
+                                @Html.Label("Content", "Continut Comentariu")
+                                <br />
+                                <textarea class="form-control inpShow" name="Content"></textarea>
+                                @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+                                <br />
+                                <button class="btn btn-success " style="background-color:#36b4e8;" type="submit">
+                                    Adauga comentariu
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
             </div>
-            <div class="col-md-2"></div>
         </div>
-    </div>
-}
-else
-{
-    <p> Creeaza un cont pentru a putea comenta! :) </p>
-}
+    }
+    else
+    {
+        <p class="CreateAcc"> Creeaza un cont pentru a putea comenta! :) </p>
+    }
+</div>

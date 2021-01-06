@@ -4,7 +4,7 @@
     ViewBag.Title = "Show profile";
 }
 <br />
-<a href="/Profiles/Index">Back to profiles</a>
+<a style="        background-color: #36b4e8; font-family: 'Audiowide', cursive;" class="btn btn-info" href="/Profiles/Index">Back to profiles</a>
 <br />
 @if (Model.UserId == User.Identity.GetUserId())
 {
@@ -15,13 +15,18 @@
 {
     if (ViewBag.sentRequest == true)
     {
-        <p> Cerere trimisa! </p>
+        <br />
+        <p style="font-family: 'Audiowide', cursive;"> Cerere trimisa! </p>
     }
     else if (ViewBag.friend == true)
     {
-        <p> Prieten </p>
+        <p style="font-family: 'Audiowide', cursive;"> Prieten </p>
     }
     else if (ViewBag.sameUser == true)
+    {
+        <p></p>
+    }
+    else if (ViewBag.noButton == true)
     {
         <p></p>
     }
@@ -33,34 +38,42 @@
 
 @if ((User.IsInRole("Admin") || @Model.UserId == ViewBag.UserId) || @Model.PrivateProfile == false)
 {
-    if (User.IsInRole("Admin"))
+<div class="divButoane container text-center">
+    @if (User.IsInRole("Admin"))
     {
-        <a class="btn btn-info" href="/Profiles/New">Adauga profil</a>
+        <a style="        background-color: #36b4e8; color: black;" class="btn btn-info" href="/Profiles/New">Adauga profil</a>
     }
-    if (ViewBag.sentRequest == true)
+    @if (ViewBag.sentRequest == true)
     {
-        <p> Cerere trimisa! </p>
+        <br />
+        <p style="font-family: 'Audiowide', cursive; color:black; margin-top:-20px"> Cerere trimisa! </p>
     }
     else if (ViewBag.friend == true)
     {
-        <p> Prieten </p>
+        <br />
+        <p style="font-family: 'Audiowide', cursive;"> Prieten </p>
     }
     else if (ViewBag.sameUser == true)
     {
-        <a class="btn btn-info" href="/Profiles/FriendRequests/@Model.ProfileId">Cereri de prietenie</a>
+        <a style="        background-color: #36b4e8; color: black;" class="btn btn-info" href="/Profiles/FriendRequests/@Model.ProfileId">Cereri de prietenie</a>
+    }
+    else if (ViewBag.noButton == true)
+    {
+        <p></p>
     }
     else
     {
         <a class="btn btn-info" href="/Profiles/SendRequest/@Model.ProfileId">Adauga prieten</a>
     }
-    <a class="btn btn-info" href="/Profiles/Friends/@Model.ProfileId">Prieteni</a>
-    <a class="btn btn-info" href="/Profiles/JoinedGroups/@Model.ProfileId">Grupuri</a>
+    <a style="        background-color: #36b4e8; color: black;" class="btn btn-info" href="/Profiles/Friends/@Model.ProfileId">Prieteni</a>
+    <a style="        background-color: #36b4e8; color: black;" class="btn btn-info" href="/Profiles/JoinedGroups/@Model.ProfileId">Grupuri</a>
+</div>
     <br />
     <br />
-    <div class="panel panel-default">
-        <div class="panel-heading">@Model.ProfileName</div>
-        <div class="panel-body">
-            Descriere profil: <strong>@Model.ProfileDescription</strong>
+    <div class="panel panel-default groupInfo">
+        <div class="panel-heading text-center">@Model.ProfileName</div>
+        <div class="panel-body text-center">
+            <strong>@Model.ProfileDescription</strong>
             <br /> <br />
             Profilul este: @if (@Model.PrivateProfile == true)
             {
@@ -72,12 +85,12 @@
             <i class="glyphicon glyphicon-user"></i>
             <strong> @Model.User.UserName </strong>
             <br />
-            <span class="label label-success">@Model.SignUpDate</span>
+            <span style="        background-color: #36b4e8;" class="label label-success">@Model.SignUpDate</span>
             <br />
             <hr>
             @if (User.IsInRole("Admin") || (User.IsInRole("User") && @Model.UserId == ViewBag.UserId))
             {
-                <a class="btn btn-success pull-left" href="/Profiles/Edit/@Model.ProfileId">Modifica profilul</a>
+                <a style="        background-color: #36b4e8; color: black;" class="btn btn-info pull-left" href="/Profiles/Edit/@Model.ProfileId">Modifica profilul</a>
                 <form method="post" action="/Profiles/Delete/@Model.ProfileId">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
                     <button class="btn btn-danger pull-right" type="submit">Sterge profil</button>
@@ -85,23 +98,26 @@
             }
         </div>
     </div>
+    <br />
+    <h2 class="text-center" style="font-family: 'Audiowide', cursive;">Postari</h2>
+    <br />
     foreach (var post in ViewBag.Posts)
     {
 
-        <div class="panel panel-default">
-            <div class="panel-heading">@post.Title</div>
-            <div class="panel-body">
-                Continut postare: <strong>@post.Content</strong>
+        <div class="panel panel-default GroupPosts">
+            <div class="panel-heading text-center">@post.Title</div>
+            <div class="panel-body text-center">
+                <strong>@post.Content</strong>
                 <br />
-                <span class="label label-success">@post.Date</span>
+                <span style="background-color: #36b4e8;" class="label label-success">@post.Date</span>
 
                 <br />
 
 
             </div>
 
-            <div class="panel panel-footer">
-                <a class="btn btn-success btn btn-sm" href="/Posts/Show/@post.Id">Afisare postare</a>
+            <div class="panel panel-footer text-center" style="background-color: transparent;">
+                <a style="        background-color: #36b4e8; color: black;" class="btn btn-info btn btn-sm" href="/Posts/Show/@post.Id">Afisare postare</a>
 
             </div>
         </div>
@@ -111,7 +127,7 @@
 }
 else
 {
-    <div class="panel panel-default">
-        <p> Acest profil este privat. </p>
+    <div class="panel panel-default" style="padding-top: 10px; padding-left: 10px;">
+        <p style="font-family: 'Audiowide', cursive;"> Acest profil este privat. </p>
     </div>
 }
